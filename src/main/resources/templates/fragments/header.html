@@ -43,6 +43,12 @@
                                     th:classappend="${#httpServletRequest.getRequestURI() == '/freebies' ? 'active' : ''}"
                                     class="nav-link" th:href="@{/freebies}">Freebies</a>
                                 </li>
+                                
+                                <li class="nav-item hidden-on-mobile" sec:authorize="hasRole('ADMIN')">
+                                    <a 
+                                    th:classappend="${#httpServletRequest.getRequestURI() == '/category/course' ? 'active' : ''}"
+                                    class="nav-link" th:href="@{/category/course}">Course Category</a>
+                                </li>
                                 <li class="nav-item">
                                     <a class="nav-link toggle-search" href="#"><i class="material-icons">search</i></a>
                                 </li>

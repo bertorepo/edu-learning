@@ -16,6 +16,7 @@ public class LoginSecurityConfig {
 		http.csrf().and()
 		.authorizeRequests((auth) -> auth.antMatchers("/courses", "/books", "/freebies").hasAnyRole("ADMIN", "USER")
 				.antMatchers("/admin").hasRole("ADMIN")
+				.mvcMatchers("/category/**", "/admin/**").hasRole("ADMIN")
 				.antMatchers("/", "/home", "/dashboard").hasAnyRole("ADMIN", "USER")
 				.antMatchers("/login").permitAll())
 				.formLogin()
@@ -25,6 +26,7 @@ public class LoginSecurityConfig {
 				.and()
 				.logout()
 				.logoutUrl("/logout")
+				.logoutUrl("/login?logout=true").permitAll()
 				.logoutSuccessUrl("/logout").permitAll()
 				.invalidateHttpSession(true)
 				.and().httpBasic();

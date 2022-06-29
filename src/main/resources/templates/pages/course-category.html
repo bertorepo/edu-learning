@@ -1,11 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
-<head th:replace="/fragments/head.html :: head"></head>
-
+<head th:replace="./fragments/head.html :: head"></head>
 <body>
-
-
     <div class="app horizontal-menu align-content-stretch d-flex flex-wrap">
         <div class="app-container">
             <div class="search container">
@@ -15,7 +13,7 @@
                 <a href="#" class="toggle-search"><i class="material-icons">close</i></a>
             </div>
             
-           <div th:replace="/fragments/header.html :: header"></div>
+            <div th:replace="./fragments/header.html :: header"></div>
             <!-- ====HIDDEN FOR NOW -->
             <div class="app-menu d-none">
                 <div class="container">
@@ -262,9 +260,9 @@
                             <div class="col">
                                 <div class="page-description d-flex align-items-center">
                                     <div class="page-description-content flex-grow-1">
-                                        <h1>Learning Resources</h1>
+                                        <h1>Course Category</h1>
                                     </div>
-                                    <div sec:authorize="hasRole('ADMIN')" class="page-description-actions">
+                                    <div class="page-description-actions">
                                         <a href="#" class="btn btn-primary"><i class="material-icons">add</i>Upload
                                             File</a>
                                     </div>
@@ -273,55 +271,37 @@
                         </div>
                         <!-- ======= HEADER TITLE -->
 
-                        <!-- ======= FILE MANAGER SECTION ======-->
-                        <div class="section-description d-none">
-                            <h1>Groups</h1>
-                        </div>
-                        <div class="row">
-                            <div class="col-xl-4">
-                                <div class="card file-manager-group">
-                                    <div class="card-body d-flex align-items-center">
-                                        <i class="material-icons text-primary">folder</i>
-                                        <div class="file-manager-group-info flex-fill">
-                                            <a href="#" class="file-manager-group-title">Books</a>
-                                            <span class="file-manager-group-about">141 files, 480MB</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card file-manager-group">
-                                    <div class="card-body d-flex align-items-center">
-                                        <i class="material-icons text-warning">folder</i>
-                                        <div class="file-manager-group-info flex-fill">
-                                            <a href="#" class="file-manager-group-title">Other</a>
-                                            <span class="file-manager-group-about">1,055 files, 60GB</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-4">
-                                <div class="card file-manager-group">
-                                    <div class="card-body d-flex align-items-center">
-                                        <i class="material-icons text-danger">folder</i>
-                                        <div class="file-manager-group-info flex-fill">
-                                            <a href="#" class="file-manager-group-title">Courses</a>
-                                            <span class="file-manager-group-about">769 files, 8.9GB</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-4">
-                                <div class="card file-manager-group">
-                                    <div class="card-body d-flex align-items-center">
-                                        <i class="material-icons text-success">folder</i>
-                                        <div class="file-manager-group-info flex-fill">
-                                            <a href="#" class="file-manager-group-title">Freebies</a>
-                                            <span class="file-manager-group-about">18 files, 128MB</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- ======= FILE MANAGER SECTION ======-->
+                        <!-- ======= COURSE CATEGORY SECTION ======-->
+                         <div class="row d-flex justify-content-center">
+					        <div class="col-md-6 ">
+					            <div class="card justify-content-center">
+					                <div class="card-header">
+					                    <h5 class="card-title">Add Course Category</h5>
+					                </div>
+					                <div class="card-body">
+					                    <p class="card-description">Here’s a quick example to demonstrate simple input field. Add
+					                        <code>.light-focus</code> to <code>.form-control</code> to get lighter border on focus.
+					                    </p>
+					                    <div class="example-container">
+					                        <div class="example-content">
+					                            <form th:action="@{/category/course/addCategory}" method="post" th:object="${courseCategoryDao}">
+					                                <label for="exampleInputEmail1" class="form-label">Course
+					                                    Category Name</label>
+					                                <input type="text" name="categoryName" class="form-control" id="exampleInputEmail1"
+					                                    aria-describedby="emailHelp">
+					                                <div id="emailHelp" class="form-text">We'll never
+					                                    share your email with anyone else.</div>
+					                                <div class="mt-2 text-center">
+					                                    <button type="submit" class="btn btn-primary">Add Category</button>
+					                                </div>
+					                            </form>
+					                        </div>
+					                    </div>
+					                </div>
+					            </div>
+					        </div>
+					    </div>
+                        <!-- ======= COURSE CATEGORY SECTION ======-->
                     </div> <!-- CONTAINER -->
 
                 </div>
@@ -329,7 +309,7 @@
         </div>
     </div>
 
- <th:block th:insert="/fragments/script.html :: script"></th:block>
+     <th:block th:insert="./fragments/script.html :: script"></th:block>
 </body>
 
 </html>

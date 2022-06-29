@@ -45,41 +45,43 @@
 </head>
 
 <body>
-    <div class="app horizontal-menu app-auth-sign-in align-content-stretch d-flex flex-wrap justify-content-end">
+   <div class="app horizontal-menu app-auth-sign-up align-content-stretch d-flex flex-wrap justify-content-end">
         <div class="app-auth-background">
 
         </div>
         <div class="app-auth-container">
             <div class="logo">
-                <a href="index.html">EDu Learning</a>
+                <a href="index.html">Edu Learning</a>
             </div>
-            <p class="auth-description">Please sign-in to your account and continue to the dashboard.<br>Don't have an
-                account? <a href="sign-up.html">Sign Up</a></p>
+            
+            <p class="auth-description">Please enter your credentials to create an account.<br>Already have an account? <a href="sign-in.html">Sign In</a></p>
             <!-- ====================ERROR FIELD FOR VALIDATIONS ================-->
-            <div class="alert alert-danger alert-style-light" role="alert" th:if="${message != null}">
-			   [[${message}]]
+            <div class="alert alert-danger alert-style-light" role="alert" th:each="error : ${#fields.errors('customerDao.*')}">
+			   [[${error}]]
 			</div>
 			<!-- ====================ERROR FIELD FOR VALIDATIONS ================-->
-			<form th:action="@{/login}" method="post">
-			<div class="auth-credentials m-b-xxl">
-                <label for="username" class="form-label">Username</label>
-                <input type="text" name="username" class="form-control m-b-md" aria-describedby="signInEmail"
-                    placeholder="sample123">
-
-                <label for="signInPassword" class="form-label">Password</label>
-                <input type="password" name="password" class="form-control" id="signInPassword"
-                    aria-describedby="signInPassword"
-                    placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;">
-            </div>
-
-            <div class="auth-submit">
-                <button type="submit" class="btn btn-primary">Sign In</button>
-                <a href="#" class="auth-forgot-password float-end">Forgot password?</a>
-            </div>
-             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-            <div class="divider"></div>
+			
+			<!-- ====================REGISTRATION FOR CUSTOMER ================-->
+			<form th:action="@{/admin/user/createUser}" method="post" th:object="${customerDao}">
+				<div class="auth-credentials m-b-xxl">
+	                <label for="signUpUsername" class="form-label">Username</label>
+	                <input type="text" th:field="*{username}" name="username" class="form-control m-b-md" id="signUpUsername" aria-describedby="signUpUsername" placeholder="Enter username">
+	
+	                <label for="signUpEmail" class="form-label">Email address</label>
+	                <input type="text" th:field="*{email}" name="email" class="form-control m-b-md" id="signUpEmail" aria-describedby="signUpEmail" placeholder="example@neptune.com">
+	
+	                <label for="signUpPassword" class="form-label">Password</label>
+	                <input type="password" th:field="*{password}" name="password" class="form-control" id="signUpPassword" aria-describedby="signUpPassword" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;">
+	                <div id="emailHelp" class="form-text">Password must be minimum 8 characters length*</div>
+	            </div>
+	
+	            <div class="auth-submit">
+	                <button type="submit"  class="btn btn-primary">Add Customer</button>
+	            </div>
+	             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+	            <div class="divider"></div>
 			</form>
-           
+            <!-- ====================ERROR FIELD FOR VALIDATIONS ================-->
         </div>
     </div>
 
