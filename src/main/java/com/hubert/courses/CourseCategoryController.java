@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/category/course")
+@RequestMapping("/admin/category/course")
 public class CourseCategoryController {
 
 	private ICourseCategory courseCatService;

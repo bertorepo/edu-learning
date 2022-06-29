@@ -15,7 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import com.hubert.customer.Authority;
+import com.hubert.authority.Authority;
 import com.hubert.customer.Customer;
 import com.hubert.customer.CustomerRepository;
 

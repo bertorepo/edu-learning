@@ -1,0 +1,104 @@
+<!Doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head></head>
+
+<body>
+	 <!-- ====SIDEBAR FOR USER -->
+            <div class="app-menu" th:fragment="sidebar_user">
+                <div class="container">
+                    <ul class="menu-list">
+                        <li th:classappend="${#httpServletRequest.getRequestURI() == '/dashboard' ? 'active-page' : ''}" >
+                            <a th:href="@{/dashboard}">Dashboard</a>
+                        </li>
+                        <li th:classappend="${#httpServletRequest.getRequestURI() == '/books' ? 'active-page' : ''}">
+                            <a th:href="@{/books}">Books</a>
+                        </li>
+                        <li th:classappend="${#httpServletRequest.getRequestURI() == '/courses' ? 'active-page' : ''}">
+                            <a th:href="@{/courses}">Courses</a>
+                        </li>
+                        <li th:classappend="${#httpServletRequest.getRequestURI() == '/freebies' ? 'active-page' : ''}">
+                            <a th:href="@{/freebies}">Freebies</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- ====SIDEBAR FOR USER -->
+            
+   
+             <!-- ====SIDEBAR FOR ADMIN -->
+            <div class="app-menu" th:fragment="sidebar_admin">
+                <div class="container">
+                    <ul class="menu-list ">
+                        <li th:classappend="${#httpServletRequest.getRequestURI() == '/dashboard' ? 'active-page' : ''}" >
+                            <a href="index.html">Dashboard</a>
+                        </li>
+                        <!-- ====AREA FOR COURSES -->
+                        <li th:classappend="${#httpServletRequest.getRequestURI() == '/courses' ? 'active-page' : ''}" >
+                            <a href="#">Courses<i class="material-icons has-sub-menu">keyboard_arrow_down</i></a>
+                            <ul class="sub-menu">
+                               
+                                <li>
+                                    <a href="file-manager.html" class="">View Courses</a>
+                                </li>
+                                 <li>
+                                    <a href="file-manager.html" class="active">Add Course</a>
+                                </li>
+                               
+                            </ul>
+                        </li>  
+                         <!-- ====AREA FOR COURSES --> 
+                         <!-- ====AREA FOR BOOKS -->
+                        <li th:classappend="${#httpServletRequest.getRequestURI() == '/books' ? 'active-page' : ''}" >
+                            <a href="#">Books<i class="material-icons has-sub-menu">keyboard_arrow_down</i></a>
+                            <ul class="sub-menu">
+                               
+                                <li>
+                                    <a href="file-manager.html" class="active">View Books</a>
+                                </li>
+                                 <li>
+                                    <a href="file-manager.html" class="active">Add Books</a>
+                                </li>
+                               
+                            </ul>
+                        </li>  
+                         <!-- ====AREA FOR BOOKS -->   
+                         <!-- ====AREA FOR FREEBIES -->
+                        <li th:classappend="${#httpServletRequest.getRequestURI() == '/freebies' ? 'active-page' : ''}" >
+                            <a href="#">Freebies<i class="material-icons has-sub-menu">keyboard_arrow_down</i></a>
+                            <ul class="sub-menu">
+                               
+                                <li>
+                                    <a href="file-manager.html" class="active">View Freebies</a>
+                                </li>
+                                 <li>
+                                    <a href="file-manager.html" class="active">Add Freebies</a>
+                                </li>
+                               
+                            </ul>
+                        </li>  
+                         <!-- ====AREA FOR FREEBIES --> 
+                         <!-- ====AREA FOR CATEGORY -->
+                        <li th:classappend="${#httpServletRequest.getRequestURI() == '/admin/category' ? 'active-page' : ''}" >
+                            <a href="#">Category<i class="material-icons has-sub-menu">keyboard_arrow_down</i></a>
+                            <ul class="sub-menu">
+                               
+                                <li>
+                                    <a href="file-manager.html" class="active">Course Category</a>
+                                </li>
+                                 <li>
+                                    <a href="file-manager.html" class="active">Books Category</a>
+                                </li>
+                                <li>
+                                    <a href="file-manager.html" class="active">Freebies Category</a>
+                                </li>
+                               
+                            </ul>
+                        </li>  
+                         <!-- ====AREA FOR CATEGORY -->                            
+                    </ul>
+                </div>
+            </div>
+            <!-- ====SIDEBAR FOR ADMIN -->
+</body>
+</html>

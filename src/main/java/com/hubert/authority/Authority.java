@@ -1,4 +1,4 @@
-package com.hubert.customer;
+package com.hubert.authority;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.hubert.customer.Customer;
 
 @Entity
 @Table(name = "authorities")

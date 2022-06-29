@@ -56,7 +56,11 @@
             <p class="auth-description">Please sign-in to your account and continue to the dashboard.<br>Don't have an
                 account? <a href="sign-up.html">Sign Up</a></p>
             <!-- ====================ERROR FIELD FOR VALIDATIONS ================-->
-            <div class="alert alert-danger alert-style-light" role="alert" th:if="${message != null}">
+            <div class="alert alert-danger alert-style-light" role="alert" th:if="${messageType == 'error' && message != null }">
+			   [[${message}]]
+			</div>
+			
+			<div class="alert alert-success alert-style-light" role="alert" th:if="${messageType == 'success' && message != null }">
 			   [[${message}]]
 			</div>
 			<!-- ====================ERROR FIELD FOR VALIDATIONS ================-->

@@ -61,6 +61,12 @@
 			</div>
 			<!-- ====================ERROR FIELD FOR VALIDATIONS ================-->
 			
+			 <!-- ====================ERROR FIELD FOR VALIDATIONS ================-->
+            <div class="alert alert-warning alert-style-light" role="alert" th:if="${messageType == 'error' && message != null }">
+			   [[${message}]]
+			</div>
+			<!-- ====================ERROR FIELD FOR VALIDATIONS ================-->
+			
 			<!-- ====================REGISTRATION FOR CUSTOMER ================-->
 			<form th:action="@{/admin/user/createUser}" method="post" th:object="${customerDao}">
 				<div class="auth-credentials m-b-xxl">
