@@ -55,21 +55,25 @@
 					                    <h5 class="card-title">Add Course Category</h5>
 					                </div>
 					                <div class="card-body">
+					                 <!-- ====================ERROR FIELD FOR VALIDATIONS ================-->
+							            <div class="alert alert-danger alert-style-light" role="alert" th:each="error : ${#fields.errors('courseCategoryDao.*')}">
+										   [[${error}]]
+										</div>
+									<!-- ====================ERROR FIELD FOR VALIDATIONS ================-->
 					                    <p class="card-description">Here’s a quick example to demonstrate simple input field. Add
 					                        <code>.light-focus</code> to <code>.form-control</code> to get lighter border on focus.
 					                    </p>
 					                    <div class="example-container">
 					                        <div class="example-content">
-					                            <form th:action="@{/category/course/addCategory}" method="post" th:object="${courseCategoryDao}">
+					                            <form th:action="@{/admin/category/course/addCategory}" method="post" th:object="${courseCategoryDao}">
 					                                <label for="exampleInputEmail1" class="form-label">Course
 					                                    Category Name</label>
-					                                <input type="text" name="categoryName" class="form-control" id="exampleInputEmail1"
+					                                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+					                                <input type="text" th:field="*{categoryName}" name="categoryName" class="form-control" id="exampleInputEmail1"
 					                                    aria-describedby="emailHelp">
-					                                <div id="emailHelp" class="form-text">We'll never
-					                                    share your email with anyone else.</div>
 					                                <div class="mt-2 text-center">
 					                                    <button type="submit" class="btn btn-primary">Add Category</button>
-					                                </div>
+					                                </div> 
 					                            </form>
 					                        </div>
 					                    </div>

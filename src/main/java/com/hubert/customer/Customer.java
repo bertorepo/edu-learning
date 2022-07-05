@@ -11,9 +11,10 @@ import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hubert.authority.Authority;
+import com.hubert.constants.BaseEntity;
 
 @Entity
-public class Customer {
+public class Customer extends BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,6 +27,17 @@ public class Customer {
 	@JsonIgnore
 	@OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
 	private Set<Authority> authorities;
+
+	public Customer() {
+	}
+
+	public Customer(Long id, String username, String password, String email, Set<Authority> authorities) {
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.email = email;
+		this.authorities = authorities;
+	}
 
 	public Long getId() {
 		return id;

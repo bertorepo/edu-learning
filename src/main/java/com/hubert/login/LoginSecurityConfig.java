@@ -16,7 +16,7 @@ public class LoginSecurityConfig {
 		http.csrf().and()
 		.authorizeRequests((auth) -> auth.antMatchers("/courses", "/books", "/freebies").hasAnyRole("ADMIN", "USER")
 				.antMatchers("/admin").hasRole("ADMIN")
-				.mvcMatchers("/category/**", "/admin/**").hasRole("ADMIN")
+				.mvcMatchers("/admin/**").hasRole("ADMIN")
 				.antMatchers("/", "/home", "/dashboard").hasAnyRole("ADMIN", "USER")
 				.antMatchers("/login").permitAll())
 				.formLogin()

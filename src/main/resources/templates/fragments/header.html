@@ -43,22 +43,16 @@
                                     th:classappend="${#httpServletRequest.getRequestURI() == '/freebies' ? 'active' : ''}"
                                     class="nav-link" th:href="@{/freebies}">Freebies</a>
                                 </li>
-                                
-                                <li class="nav-item hidden-on-mobile" sec:authorize="hasRole('ADMIN')">
-                                    <a 
-                                    th:classappend="${#httpServletRequest.getRequestURI() == '/category/course' ? 'active' : ''}"
-                                    class="nav-link" th:href="@{/category/course}">Course Category</a>
-                                </li>
                                 <li class="nav-item">
                                     <a class="nav-link toggle-search" href="#"><i class="material-icons">search</i></a>
                                 </li>
                                 <li class="nav-item hidden-on-mobile">
                                     <a class="nav-link language-dropdown-toggle" href="#" id="languageDropDown"
-                                        data-bs-toggle="dropdown"><img src="../assets/images/flags/us.png" alt=""></a>
+                                        data-bs-toggle="dropdown"><img src="/assets/images/flags/us.png" alt=""></a>
                                     <ul class="dropdown-menu dropdown-menu-end language-dropdown"
                                         aria-labelledby="languageDropDown">
                                         <li><a class="dropdown-item" th:href="@{/logout}"><img
-                                                    src="../assets/images/flags/germany.png" alt="">Logout</a></li>
+                                                    src="/assets/images/flags/germany.png" alt="">Logout</a></li>
 
                                     </ul>
                                 </li>

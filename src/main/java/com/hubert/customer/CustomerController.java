@@ -12,7 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,15 +47,15 @@ public class CustomerController {
 	}
 
 	@PostMapping("/createUser")
-	public String addCustomer(@Valid @ModelAttribute("customerDao") CustomerDao customerDao, Errors errors, Model model,
-			HttpServletRequest request, HttpServletResponse reponse) {
+	public String addCustomer(@Valid @ModelAttribute("customerDao") CustomerDao customerDao,
+			BindingResult bindingResult, Model model, HttpServletRequest request, HttpServletResponse reponse) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (errors.hasErrors()) {
+		if (bindingResult.hasErrors()) {
 			return "register";
 		}
 		boolean isSaved = customerSevice.saveCustomer(customerDao);
 		if (!isSaved) {
-			return "redirect://admin/user/addUser?error=true";
+			return "redirect:/admin/user/addUser?error=true";
 		}
 
 		// admin will auto logout after adding new customer

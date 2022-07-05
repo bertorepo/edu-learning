@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.hubert.authority.Authority;
 import com.hubert.authority.AuthorityRespository;
+import com.hubert.constants.Constants;
 
 @Service
 public class CustomerServiceImpl implements ICustomerService {
@@ -30,17 +31,19 @@ public class CustomerServiceImpl implements ICustomerService {
 		// adding the new customer
 		ModelMapper modelMap = new ModelMapper();
 		if (customerDao != null) {
-			Customer cust = modelMap.map(customerDao, Customer.class);
+			Customer cust = new Customer();
+			cust.setUsername(customerDao.getUsername());
+			cust.setEmail(customerDao.getEmail());
 
 			// encrypt the the password
-			String hashPwd = passwordEncoder.encode(cust.getPassword());
+			String hashPwd = passwordEncoder.encode(customerDao.getPassword());
 			cust.setPassword(hashPwd);
 			customerRepo.save(cust);
 
 			// automatically add the customer as ROLE_USER
 			Authority auth = new Authority();
 			auth.setCustomer(cust);
-			auth.setName("ROLE_USER");
+			auth.setName(Constants.ROLE_USER);
 			authRepository.save(auth);
 
 			isSaved = true;

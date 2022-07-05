@@ -1,8 +1,11 @@
 package com.hubert.courses;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,21 +22,27 @@ public class CourseCategoryController {
 		this.courseCatService = courseCatService;
 	}
 
-	@GetMapping("")
+	@GetMapping("/add")
 	public String displayCategoryPage(Model model) {
+
 		model.addAttribute("courseCategoryDao", new CourseCategoryDao());
 
 		return "pages/course-category";
 	}
 
 	@PostMapping("/addCategory")
-	public String addCoursecategory(@ModelAttribute CourseCategoryDao courseCategoryDao, Model model) {
+	public String addCoursecategory(@Valid @ModelAttribute("courseCategoryDao") CourseCategoryDao courseCategoryDao, BindingResult bindingResult,
+			Model model) {
+
+		if (bindingResult.hasErrors()) {
+			return "pages/course-category";
+		}
 
 		boolean saveCourseCat = courseCatService.saveCategory(courseCategoryDao);
 		if (saveCourseCat) {
-			return "redirect:/category/course?success=true";
+			return "redirect:/";
 		}
-		return "redirect:/category/course?error=false";
 
+		return "pages/course-category";
 	}
 }

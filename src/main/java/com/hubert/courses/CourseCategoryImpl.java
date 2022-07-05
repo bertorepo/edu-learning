@@ -1,6 +1,5 @@
 package com.hubert.courses;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,19 +16,15 @@ public class CourseCategoryImpl implements ICourseCategory {
 	@Override
 	public boolean saveCategory(CourseCategoryDao courseCategoryDao) {
 		boolean isSaved = false;
-		
-		ModelMapper modelMapper = new ModelMapper();
 
-		
 		if (courseCategoryDao != null) {
-			CourseCategory cat = modelMapper.map(courseCategoryDao, CourseCategory.class);
+			CourseCategory cat = new CourseCategory();
+			cat.setCategoryName(courseCategoryDao.getCategoryName());
 			repository.save(cat);
 			isSaved = true;
-		}else {
-			isSaved = false;
 		}
 		return isSaved;
-		
+
 	}
 
 }
