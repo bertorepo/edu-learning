@@ -1,6 +1,5 @@
 package com.hubert.customer;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,7 +28,6 @@ public class CustomerServiceImpl implements ICustomerService {
 		boolean isSaved = false;
 
 		// adding the new customer
-		ModelMapper modelMap = new ModelMapper();
 		if (customerDao != null) {
 			Customer cust = new Customer();
 			cust.setUsername(customerDao.getUsername());

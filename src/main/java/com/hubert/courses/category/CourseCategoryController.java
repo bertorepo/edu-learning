@@ -1,4 +1,4 @@
-package com.hubert.courses;
+package com.hubert.courses.category;
 
 import javax.validation.Valid;
 

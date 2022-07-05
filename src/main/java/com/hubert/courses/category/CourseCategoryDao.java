@@ -1,9 +1,11 @@
-package com.hubert.courses;
+package com.hubert.courses.category;
 
 import javax.validation.constraints.NotBlank;
 
 public class CourseCategoryDao {
+	
 
+	
 	@NotBlank(message = "Course Category must not be empty!")
 	private String categoryName;
 

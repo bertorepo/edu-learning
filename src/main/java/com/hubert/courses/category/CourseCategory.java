@@ -1,4 +1,4 @@
-package com.hubert.courses;
+package com.hubert.courses.category;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,7 +15,7 @@ public class CourseCategory extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@Column(name="categgory_name")
+	@Column(name="category_name")
 	private String categoryName;
 	
 	

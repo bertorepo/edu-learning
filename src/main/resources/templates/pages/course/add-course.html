@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head th:replace="././fragments/head.html :: head"></head>
+<body>
+    <div class="app horizontal-menu align-content-stretch d-flex flex-wrap">
+        <div class="app-container">
+            <div class="search container">
+                <form>
+                    <input class="form-control" type="text" placeholder="Type here..." aria-label="Search">
+                </form>
+                <a href="#" class="toggle-search"><i class="material-icons">close</i></a>
+            </div>
+            
+            <div th:replace="././fragments/header.html :: header"></div>
+            <!-- ====SUB-SIDEBAR FOR USER ROLE-->
+            <th:block sec:authorize="hasRole('USER')">
+            	<div th:replace="././fragments/sidebar.html :: sidebar_user"></div>
+            </th:block>
+            <!-- ====SUB-SIDEBAR FOR USER ROLE-->
+            
+            <!-- ====SUB-SIDEBAR FOR ADMIN ROLE-->
+            <th:block sec:authorize="hasRole('ADMIN')">
+            	<div th:replace="././fragments/sidebar.html :: sidebar_admin"></div>
+            </th:block>
+            <!-- ====SUB-SIDEBAR FOR ADMIN ROLE-->
+            
+            <div class="app-content">
+                <div class="content-wrapper">
+                    <div class="container">
+                        <!-- CONTAINER -->
+
+                        <!-- ======= HEADER TITLE -->
+                        <div class="row">
+                            <div class="col">
+                                <div class="page-description d-flex align-items-center">
+                                    <div class="page-description-content flex-grow-1">
+                                        <h1>Add Course</h1>
+                                    </div>
+                                   <!--  <div class="page-description-actions">
+                                        <a href="#" class="btn btn-primary"><i class="material-icons">add</i>Upload
+                                            File</a>
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ======= HEADER TITLE -->
+
+                        <!-- ======= COURSE SECTION ======-->
+                         <div class="row d-flex justify-content-center">
+					        <div class="col-md-8">
+					            <div class="card justify-content-center">
+					                <div class="card-header">
+					                    <h5 class="card-title">Add Course</h5>
+					                </div>
+					                <div class="card-body">
+					                 <!-- ====================ERROR FIELD FOR VALIDATIONS ================-->
+							             <div class="alert alert-danger alert-style-light" role="alert" th:each="error : ${#fields.errors('courseDao.*')}">
+										   [[${error}]]
+										</div> 
+									<!-- ====================ERROR FIELD FOR VALIDATIONS ================-->
+					                    <p class="card-description">Here’s a quick example to demonstrate simple input field. Add
+					                        <code>.light-focus</code> to <code>.form-control</code> to get lighter border on focus.
+					                    </p>
+					                    <div class="example-container">
+					                        <div class="example-content">
+					                            <form th:action="@{/admin/course/addCourse}" method="post" class="row g-3" th:object="${courseDao}">
+					                                <div class="col-md-8">
+												        <label for="inputEmail4" class="form-label">Course Name</label>
+												        <input type="text" th:field="*{courseName}" name="courseName" class="form-control" id="inputEmail4">
+												    </div>
+												    <div class="col-md-4">
+												        <label for="inputEmail4" class="form-label">File Size</label>
+												        <input type="number" th:field="*{courseSize}" name="courseSize" class="form-control" id="inputEmail4">
+												    </div>
+												   <div class="col-md-12">
+												        <label for="inputEmail4" class="form-label">Course Description</label>
+												        <input type="text" th:field="*{courseDescription}" name="courseDescription" class="form-control" id="inputEmail4">
+												    </div>
+												    <div class="col-md-12">
+												        <label for="inputEmail4" class="form-label">Course Link</label>
+												        <input type="text" th:field="*{courseLink}" name="courseLink" class="form-control" id="inputEmail4">
+												    </div>
+												    <div class="col-md-12">
+												        <label for="inputState" class="form-label">Course Category</label>
+												        <select id="inputState" th:field="*{courseCategory}" name="courseCategory" class="form-select"
+												        
+												        >
+												        <option th:value="''" selected>Choose category...</option>
+												            <option th:each="courseCat : ${courseCategoryList}" th:value="${courseCat.id}" th:text="${courseCat.categoryName}"></option>
+												        </select>
+												    </div>
+												    <div class="col-12">
+												        <button type="submit" class="btn btn-primary">Add Course</button>
+												    </div>
+					                            </form>
+					                        </div>
+					                    </div>
+					                </div>
+					            </div>
+					        </div>
+					    </div>
+                        <!-- ======= COURSE SECTION ======-->
+                    </div> <!-- CONTAINER -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+     <th:block th:insert="././fragments/script.html :: script"></th:block>
+</body>
+
+</html>
