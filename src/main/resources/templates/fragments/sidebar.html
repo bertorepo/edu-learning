@@ -31,7 +31,7 @@
                 <div class="container">
                     <ul class="menu-list ">
                         <li th:classappend="${#httpServletRequest.getRequestURI() == '/dashboard' ? 'active-page' : ''}" >
-                            <a href="index.html">Dashboard</a>
+                            <a th:href="@{/dashboard}">Dashboard</a>
                         </li>
                         <!-- ====AREA FOR COURSES -->
                         <li th:classappend="${#httpServletRequest.getRequestURI() == '/courses' ? 'active-page' : ''}" >
@@ -57,7 +57,7 @@
                                     <a href="file-manager.html" class="active">View Books</a>
                                 </li>
                                  <li>
-                                    <a href="file-manager.html" class="active">Add Books</a>
+                                    <a th:href="@{/admin/book/addBook}" >Add Books</a>
                                 </li>
                                
                             </ul>
@@ -68,11 +68,11 @@
                             <a href="#">Freebies<i class="material-icons has-sub-menu">keyboard_arrow_down</i></a>
                             <ul class="sub-menu">
                                
-                                <li>
+                                <li> 
                                     <a href="file-manager.html" class="active">View Freebies</a>
                                 </li>
                                  <li>
-                                    <a href="file-manager.html" class="active">Add Freebies</a>
+                                    <a th:href="@{/admin/freebies/addFreebies}">Add Freebies</a>
                                 </li>
                                
                             </ul>
@@ -87,12 +87,8 @@
                                     <a th:href="@{/admin/category/course/add}" class="active">Course Category</a>
                                 </li>
                                  <li>
-                                    <a href="file-manager.html" class="active">Books Category</a>
+                                    <a th:href="@{/admin/category/book/addBookCategory}" >Books Category</a>
                                 </li>
-                                <li>
-                                    <a href="file-manager.html" class="active">Freebies Category</a>
-                                </li>
-                               
                             </ul>
                         </li>  
                          <!-- ====AREA FOR CATEGORY -->                            

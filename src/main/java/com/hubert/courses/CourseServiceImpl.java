@@ -3,8 +3,8 @@ package com.hubert.courses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hubert.constants.Constants;
 import com.hubert.courses.category.CourseCategory;
-import com.hubert.courses.category.CourseCategoryRepository;
 import com.hubert.courses.category.ICourseCategory;
 
 @Service
@@ -28,6 +28,7 @@ public class CourseServiceImpl implements ICourseService {
 			course.setCourseLink(courseDao.getCourseLink());
 			course.setCourseDescription(courseDao.getCourseDescription());
 			course.setCourseSize(courseDao.getCourseSize());
+			course.setEnabled(Constants.IS_ENABLED);
 
 			CourseCategory courseCat = courseCategory.findCourseCategoryById(courseDao.getCourseCategory().getId());
 			course.setCourseCategory(courseCat);
