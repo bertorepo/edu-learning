@@ -36,12 +36,15 @@ public class LoginSecurityAuthenticationProvider implements AuthenticationProvid
 		String username = authentication.getName();
 		String pwd = authentication.getCredentials().toString();
 
-		List<Customer> customersList = customerRepository.findCustomerByUsername(username);
+		// List<Customer> customersList =
+		// customerRepository.findCustomerByUsername(username);
 
-		if (customersList.size() > 0) {
-			if (passwordEncoder.matches(pwd, customersList.get(0).getPassword())) {
+		Customer myCustomer = customerRepository.findCustomerByUsername(username);
+
+		if (myCustomer.getId() > 0) {
+			if (passwordEncoder.matches(pwd, myCustomer.getPassword())) {
 				return new UsernamePasswordAuthenticationToken(username, pwd,
-						getGrantedAuthority(customersList.get(0).getAuthorities()));
+						getGrantedAuthority(myCustomer.getAuthorities()));
 			} else {
 				throw new UsernameNotFoundException("Invalid Credentials!");
 			}

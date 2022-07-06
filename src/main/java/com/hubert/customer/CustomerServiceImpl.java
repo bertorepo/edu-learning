@@ -52,4 +52,28 @@ public class CustomerServiceImpl implements ICustomerService {
 		return isSaved;
 	}
 
+	@Override
+	public Customer getCustomerByUsername(String username) {
+		Customer cust = null;
+
+		if (username != null) {
+			cust = customerRepo.findCustomerByUsername(username);
+
+			if (cust.getId() > 0) {
+				return cust;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public boolean updateCustomer(Customer cust) {
+		boolean isUpdated = false;
+		if (cust.getId() > 0) {
+			customerRepo.save(cust);
+			isUpdated = true;
+		}
+		return isUpdated;
+	}
+
 }

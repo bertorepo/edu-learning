@@ -23,12 +23,13 @@ public class LoginController {
 	@RequestMapping(value = "/login", method = { RequestMethod.GET, RequestMethod.POST })
 	public String login(@RequestParam(value = "logout", required = false) String logout,
 			@RequestParam(value = "register", required = false) String register,
-			@RequestParam(value = "error", required = false) String error, Model model) {
-		
-//		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//		if(auth !=null) {
-//			return "redirect:/dashboard";
-//		}
+			@RequestParam(value = "error", required = false) String error,
+			@RequestParam(value = "updated", required = false) String updated, Model model) {
+
+		// Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		// if(auth !=null) {
+		// return "redirect:/dashboard";
+		// }
 
 		MessageResponse messageResponse = new MessageResponse();
 		List<String> generateMessage = null;
@@ -42,6 +43,11 @@ public class LoginController {
 			model.addAttribute(messageResponse.getMessageType(), generateMessage.get(1));
 		} else if (error != null) {
 			generateMessage = MessageResponse.generateMessage("Invalid username and password", "error");
+			model.addAttribute(messageResponse.getMessage(), generateMessage.get(0));
+			model.addAttribute(messageResponse.getMessageType(), generateMessage.get(1));
+		} else if (updated != null) {
+			generateMessage = MessageResponse.generateMessage("Password updated! You can now login with new password.",
+					"success");
 			model.addAttribute(messageResponse.getMessage(), generateMessage.get(0));
 			model.addAttribute(messageResponse.getMessageType(), generateMessage.get(1));
 		}

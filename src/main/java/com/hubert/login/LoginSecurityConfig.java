@@ -12,33 +12,34 @@ public class LoginSecurityConfig {
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		
+
 		http.csrf().and()
-		.authorizeRequests((auth) -> auth.antMatchers("/courses", "/books", "/freebies").hasAnyRole("ADMIN", "USER")
-				.antMatchers("/admin").hasRole("ADMIN")
-				.mvcMatchers("/admin/**").hasRole("ADMIN")
-				.antMatchers("/", "/home", "/dashboard").hasAnyRole("ADMIN", "USER")
-				.antMatchers("/login").permitAll())
+				.authorizeRequests(
+						(auth) -> auth.antMatchers("/courses", "/books", "/freebies").hasAnyRole("ADMIN", "USER")
+								.antMatchers("/admin").hasRole("ADMIN")
+								.mvcMatchers("/admin/**").hasRole("ADMIN")
+								.mvcMatchers("/profile/**").authenticated()
+								.antMatchers("/", "/home", "/dashboard").hasAnyRole("ADMIN", "USER")
+								.antMatchers("/login").permitAll())
 				.formLogin()
 				.loginPage("/login")
 				.loginProcessingUrl("/login")
 				.defaultSuccessUrl("/dashboard?auth=true")
 				.failureUrl("/login?error=true").permitAll()
 				.and()
-				.logout()		
+				.logout()
 				.logoutUrl("/login?logout=true").permitAll()
 				.logoutSuccessUrl("/logout").permitAll()
 				.invalidateHttpSession(true)
 				.and().httpBasic();
-				
+
 		return http.build();
-		
+
 	}
-	
+
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-	
-	
+
 }
