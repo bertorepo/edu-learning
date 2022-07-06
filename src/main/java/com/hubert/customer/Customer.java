@@ -17,7 +17,7 @@ import com.hubert.constants.BaseEntity;
 public class Customer extends BaseEntity {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String username;
 	@JsonIgnore
@@ -31,8 +31,7 @@ public class Customer extends BaseEntity {
 	public Customer() {
 	}
 
-	public Customer(Long id, String username, String password, String email, Set<Authority> authorities) {
-		this.id = id;
+	public Customer(String username, String password, String email, Set<Authority> authorities) {
 		this.username = username;
 		this.password = password;
 		this.email = email;

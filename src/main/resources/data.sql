@@ -1,0 +1,2 @@
+INSERT INTO customer (id, email, password, username) VALUES (1,'hubert@hubert', '$2a$12$f1fs0PaxJScTaB6NexA0juQyOTVa3KiEfCy1s4Vgpam6a2DHj5Ojm', 'hubert');
+INSERT INTO authorities (id, name, customer_id) VALUES (1, "ROLE_ADMIN", 1);
