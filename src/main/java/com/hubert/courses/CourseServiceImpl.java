@@ -1,5 +1,7 @@
 package com.hubert.courses;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +30,7 @@ public class CourseServiceImpl implements ICourseService {
 			course.setCourseLink(courseDao.getCourseLink());
 			course.setCourseDescription(courseDao.getCourseDescription());
 			course.setCourseSize(courseDao.getCourseSize());
-			course.setEnabled(Constants.IS_ENABLED);
+			course.setEnabled(!Constants.IS_ENABLED);
 
 			CourseCategory courseCat = courseCategory.findCourseCategoryById(courseDao.getCourseCategory().getId());
 			course.setCourseCategory(courseCat);
@@ -38,6 +40,16 @@ public class CourseServiceImpl implements ICourseService {
 		}
 
 		return course;
+	}
+
+	@Override
+	public List<Course> getAllCourses() {
+
+		List<Course> courseList = courseRepository.findAll();
+		if (courseList.size() > 0) {
+			return courseList;
+		}
+		return null;
 	}
 
 }

@@ -28,7 +28,11 @@ public class CoursesController {
 	}
 
 	@GetMapping("/courses")
-	public String displayCoursesPage() {
+	public String displayCoursesPage(Model model) {
+		List<Course> courseList = courseService.getAllCourses();
+		if (courseList.size() > 0) {
+			model.addAttribute("courseList", courseList);
+		}
 		return "pages/course/courses";
 	}
 
@@ -59,9 +63,19 @@ public class CoursesController {
 		// call the service
 		Course saveCourse = courseService.saveCourse(courseDao);
 		if (saveCourse.getId() > 0) {
-			return "redirect:/?added=true";
+			return "redirect:/admin/course/manageCourse?added=true";
 		}
 
 		return "redirect:/?added=false";
+	}
+
+	// ADMIN:MANAGE COURSES
+	@GetMapping("/admin/course/manageCourse")
+	public String displayManageCourse(Model model) {
+		List<Course> courseList = courseService.getAllCourses();
+		if (courseList.size() > 0) {
+			model.addAttribute("courseList", courseList);
+		}
+		return "pages/course/courses";
 	}
 }

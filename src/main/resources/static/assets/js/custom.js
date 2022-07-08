@@ -7,4 +7,12 @@ $(document).ready(function () {
     //   header: true,
     // },
   });
+  $("#courseTable").DataTable({
+    // scrollX: true,
+    pagingType: "simple",
+    // pageLength: 30,
+    // fixedHeader: {
+    //   header: true,
+    // },
+  });
 });

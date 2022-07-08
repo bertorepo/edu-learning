@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head th:replace="./fragments/head.html :: head"></head>
+<body>
+    <div class="app horizontal-menu align-content-stretch d-flex flex-wrap">
+        <div class="app-container">
+            <div class="search container">
+                <form>
+                    <input class="form-control" type="text" placeholder="Type here..." aria-label="Search">
+                </form>
+                <a href="#" class="toggle-search"><i class="material-icons">close</i></a>
+            </div>
+            
+            <div th:replace="./fragments/header.html :: header"></div>
+            <!-- ====SUB-SIDEBAR FOR USER ROLE-->
+            <th:block sec:authorize="hasRole('USER')">
+            	<div th:replace="./fragments/sidebar.html :: sidebar_user"></div>
+            </th:block>
+            <!-- ====SUB-SIDEBAR FOR USER ROLE-->
+            
+            <!-- ====SUB-SIDEBAR FOR ADMIN ROLE-->
+            <th:block sec:authorize="hasRole('ADMIN')">
+            	<div th:replace="./fragments/sidebar.html :: sidebar_admin"></div>
+            </th:block>
+            <!-- ====SUB-SIDEBAR FOR ADMIN ROLE-->
+            
+            <div class="app-content">
+                <div class="content-wrapper">
+                    <div class="container">
+                        <!-- CONTAINER -->
+
+                        <!-- ======= HEADER TITLE -->
+                        <div class="row">
+                            <div class="col">
+                                <div class="page-description d-flex align-items-center">
+                                    <div class="page-description-content flex-grow-1">
+                                        <h1>List of Courses</h1>
+                                    </div>
+                                    <div class="page-description-actions">
+                                        <a href="#" class="btn btn-primary"><i class="material-icons">add</i>Upload
+                                            File</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ======= HEADER TITLE -->
+
+                        <!-- ======= COURSES SECTION ======-->
+                        <div class="section-description d-none">
+                            <h1>Groups</h1>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-4">
+                                <div class="card file-manager-group">
+                                    <div class="card-body d-flex align-items-center">
+                                        <i class="material-icons text-primary">folder</i>
+                                        <div class="file-manager-group-info flex-fill">
+                                            <a href="#" class="file-manager-group-title">Digital Marketing Courses</a>
+                                            <span class="file-manager-group-about">141 files, 480MB</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card file-manager-group">
+                                    <div class="card-body d-flex align-items-center">
+                                        <i class="material-icons text-warning">folder</i>
+                                        <div class="file-manager-group-info flex-fill">
+                                            <a href="#" class="file-manager-group-title">Programming Courses</a>
+                                            <span class="file-manager-group-about">1,055 files, 60GB</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4">
+                                <div class="card file-manager-group">
+                                    <div class="card-body d-flex align-items-center">
+                                        <i class="material-icons text-danger">folder</i>
+                                        <div class="file-manager-group-info flex-fill">
+                                            <a href="#" class="file-manager-group-title">Video Editing Courses</a>
+                                            <span class="file-manager-group-about">769 files, 8.9GB</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4">
+                                <div class="card file-manager-group">
+                                    <div class="card-body d-flex align-items-center">
+                                        <i class="material-icons text-success">folder</i>
+                                        <div class="file-manager-group-info flex-fill">
+                                            <a href="#" class="file-manager-group-title">Other Courses</a>
+                                            <span class="file-manager-group-about">18 files, 128MB</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ======= COURSES SECTION ======-->
+                    </div> <!-- CONTAINER -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+     <th:block th:insert="./fragments/script.html :: script"></th:block>
+</body>
+
+</html>

@@ -129,23 +129,12 @@
                                                     <th scope="col">Status</th>
                                                     <th scope="col">Added Since</th>
                                                     <th scope="col">Size</th>
-                                                    <th scope="col">Actions</th>
-                                                </tr>
-                                            </thead>
-                                            <thead class="table-dark d-none" sec:authorize="hasRole('ROLE_USER')">
-                                                <tr>
-                                                    <th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">No.</th>
-                                                    <th scope="col">Course Title</th>
-                                                    <th scope="col">Link</th>
-                                                    <th scope="col">Status</th>
-                                                    <th scope="col">Added Since</th>
-                                                    <th scope="col">Size</th>
                                                     <th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">Actions</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr th:each="course, iter : ${courseList}">
-                                                    <td scope="col" th:text="${iter.index + 1}" sec:authorize="hasRole('ROLE_ADMIN')">1</td>
+                                                    <td scope="col" th:text="${iter.index + 1}">1</td>
                                                     <td scope="col" th:text="${course.courseName}">hubert3231</td>
                                                     <td >
                                                         <a type="button" data-bs-toggle="modal" data-bs-target="#linkPreview" th:onclick="previewLink([[${course.courseLink}]])">
@@ -165,7 +154,7 @@
                                                     <td scope="col" th:text="${course.courseSize}">hubert3231</td>
                                                     
                                                     <!-- ======= ACTIONS (DELETE, UPDATE) : ADMIN CAN VIEW ======-->
-                                                    <td class="d-flex align-items-center gap-1" sec:authorize="hasRole('ROLE_ADMIN')">
+                                                    <td class="d-flex align-items-center gap-1" >
                                                         <span class="badge badge-style-light rounded-pill badge-primary"><i class="material-icons text-primary" style="font-size:1.2rem;cursor:pointer;">edit</i></span> 
                                                         <a type="button" data-bs-toggle="modal" data-bs-target="#deleteCourse" th:onclick="deleteCourse([[${course.id}]])">   
                                                             <span class="badge badge-style-light rounded-pill badge-danger"><i class="material-icons text-danger" style="font-size:1.2rem;cursor:pointer;">delete_outline</i></span> 

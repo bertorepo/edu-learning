@@ -41,11 +41,14 @@ public class LoginSecurityAuthenticationProvider implements AuthenticationProvid
 
 		Customer myCustomer = customerRepository.findCustomerByUsername(username);
 
-		if (myCustomer.isDisabled()) {
-			throw new UsernameNotFoundException("Disabled Customer!");
-		} else {
+		// check if customer exist
+		if (myCustomer == null) {
+			throw new UsernameNotFoundException("Username not Found in the Database!");
+		}
 
-			if (myCustomer.getId() > 0) {
+		// continue if customer exist
+		if (myCustomer.getId() > 0) {
+			if (!myCustomer.isDisabled()) {
 				if (passwordEncoder.matches(pwd, myCustomer.getPassword())) {
 					return new UsernamePasswordAuthenticationToken(username, pwd,
 							getGrantedAuthority(myCustomer.getAuthorities()));
@@ -53,8 +56,10 @@ public class LoginSecurityAuthenticationProvider implements AuthenticationProvid
 					throw new UsernameNotFoundException("Invalid Credentials!");
 				}
 			} else {
-				throw new UsernameNotFoundException("Username not Found in the Database!");
+				throw new UsernameNotFoundException("Disabled!");
 			}
+		} else {
+			throw new UsernameNotFoundException("Username not Found in the Database!");
 		}
 
 	}

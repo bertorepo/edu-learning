@@ -54,7 +54,7 @@
                             <ul class="sub-menu">
                                
                                 <li>
-                                    <a href="file-manager.html" class="">View Courses</a>
+                                    <a th:href="@{/admin/course/manageCourse}" class="">Manage Courses</a>
                                 </li>
                                  <li>
                                     <a th:href="@{/admin/course/addCourse}">Add Course</a>
@@ -107,6 +107,20 @@
                             </ul>
                         </li>  
                          <!-- ====AREA FOR CATEGORY -->                            
+                         <!-- ====AREA FOR CUSTOMER -->
+                        <li th:classappend="${#httpServletRequest.getRequestURI() == '/admin/category' ? 'active-page' : ''}" >
+                            <a href="#">Customer<i class="material-icons has-sub-menu">keyboard_arrow_down</i></a>
+                            <ul class="sub-menu">
+                               
+                                <li>
+                                    <a th:href="@{/admin/user/allUsers}" class="active">Manage Customers</a>
+                                </li>
+                                 <li>
+                                    <a th:href="@{/admin/user/addUser}" >Add Customer</a>
+                                </li>
+                            </ul>
+                        </li>  
+                         <!-- ====AREA FOR CUSTOMER -->                            
                     </ul>
                 </div>
             </div>
