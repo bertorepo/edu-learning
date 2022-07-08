@@ -42,7 +42,8 @@
                                         <h1>Learning Resources</h1>
                                     </div>
                                     <div sec:authorize="hasRole('ADMIN')" class="page-description-actions">
-                                        <a th:href="@{admin/user/addUser}" class="btn btn-primary btn-style-light"><i class="material-icons">add</i>Add Customer</a>
+                                        <a th:href="@{/admin/user/allUsers}" class="btn btn-warning btn-style-light"><i class="material-icons">people</i>All Customers</a>
+                                        <a th:href="@{/admin/user/addUser}" class="btn btn-primary btn-style-light"><i class="material-icons">add</i>Add Customer</a>
                                     </div>
                                 </div>
                             </div>

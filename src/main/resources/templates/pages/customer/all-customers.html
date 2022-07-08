@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head th:replace="/fragments/head.html :: head"></head>
+
+<body>
+
+
+    <div class="app horizontal-menu align-content-stretch d-flex flex-wrap">
+        <div class="app-container">
+            <div class="search container">
+                <form>
+                    <input class="form-control" type="text" placeholder="Type here..." aria-label="Search">
+                </form>
+                <a href="#" class="toggle-search"><i class="material-icons">close</i></a>
+            </div>
+            <!-- ====THE NAVBAR AREA======-->
+           <div th:replace="./fragments/header.html :: header"></div>
+            <!-- ====THE NAVBAR AREA======-->
+           
+            <!-- ====SUB-SIDEBAR FOR USER ROLE-->
+            <th:block sec:authorize="hasRole('USER')">
+            	<div th:replace="./fragments/sidebar.html :: sidebar_user"></div>
+            </th:block>
+            <!-- ====SUB-SIDEBAR FOR USER ROLE-->
+            
+            <!-- ====SUB-SIDEBAR FOR ADMIN ROLE-->
+            <th:block sec:authorize="hasRole('ADMIN')">
+            	<div th:replace="./fragments/sidebar.html :: sidebar_admin"></div>
+            </th:block>
+            <!-- ====SUB-SIDEBAR FOR ADMIN ROLE-->
+            <div class="app-content">
+                <div class="content-wrapper">
+                    <div class="container">
+                        <!-- CONTAINER -->
+
+                        <!-- ======= HEADER TITLE =====-->
+                        <div class="row">
+                            <div class="col">
+                                <div class="page-description d-flex align-items-center">
+                                    <div class="page-description-content flex-grow-1">
+                                        <h1>All Customers</h1>
+                                    </div>
+                                    <div sec:authorize="hasRole('ADMIN')" class="page-description-actions">
+                                        <a th:href="@{/admin/user/addUser}" class="btn btn-primary btn-style-light"><i class="material-icons">add</i>Add Customer</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ======= HEADER TITLE -->
+
+                        <!-- ====== MODAL COMPONENTS ===== -->
+
+                        <!-- ====== FOR CHANGING STATUS OF CUSTOMER ===== -->
+                        <div class="modal fade" id="modalDisable" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Confirmation for Update Status!</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                       <form id="statusForm" method="post">
+                                        <input type="hidden" id="customerId" name="customerId"></input>
+                                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                                        <div class="widget-connection-request-actions d-flex">
+                                            <a href="#" class="btn btn-warning btn-style-light flex-grow-1 m-r-xxs" data-bs-dismiss="modal"><i class="material-icons">close</i>Close</a>
+                                            <button type="submit" class="btn btn-danger btn-style-light flex-grow-1 m-l-xxs"><i class="material-icons">done</i>Proceed</button>
+                                        </div>
+                                       </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ====== FOR CHANGING STATUS OF CUSTOMER ===== -->
+                        <!-- ====== FOR DELETING CUSTOMER ===== -->
+                        <div class="modal fade" id="deleteCustomer" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Confirmation for Delete!</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                       <form id="deleteForm" method="delete">
+                                        <input type="hidden" id="deleteId" name="deleteId"></input>
+                                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                                        <div class="widget-connection-request-actions d-flex">
+                                            <a href="#" class="btn btn-warning btn-style-light flex-grow-1 m-r-xxs" data-bs-dismiss="modal"><i class="material-icons">close</i>Close</a>
+                                            <button type="submit" class="btn btn-danger btn-style-light flex-grow-1 m-l-xxs"><i class="material-icons">done</i>Proceed</button>
+                                        </div>
+                                       </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ====== FOR DELETING CUSTOMER ===== -->
+
+                        <!-- ====== MODAL COMPONENTS ===== -->
+
+                        <!-- ======= ALL CUSTOMERS SECTION ======-->
+                        <div class="section-description d-none">
+                            <h1>Groups</h1>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <!-- ====================ERROR FIELD FOR VALIDATIONS ================-->
+                                <div class="alert alert-success alert-style-light" role="alert" th:if = "${statusSuccess != null}">
+                                [[${statusSuccess}]]
+                                </div> 
+                                <div class="alert alert-danger alert-style-light" role="alert" th:if = "${statusError != null}">
+                                [[${statusError}]]
+                                </div> 
+                                <div class="alert alert-success alert-style-light" role="alert" th:if = "${deleteSuccess != null}">
+                                [[${deleteSuccess}]]
+                                </div> 
+                                <div class="alert alert-danger alert-style-light" role="alert" th:if = "${deleteError != null}">
+                                [[${deleteError}]]
+                                </div> 
+                                <!-- ====================ERROR FIELD FOR VALIDATIONS ================-->
+                                <div class="card">
+                                    <div class="card-body">
+                                        <!-- ======= TABLE LAYOUT ======-->
+                                        <div class="table-responsive">
+                                        <table id="customerTable" class="display nowrap" style="width:100%">
+                                            <thead class="table-dark">
+                                                <tr>
+                                                    <th scope="col">No.</th>
+                                                    <th scope="col">Username</th>
+                                                    <th scope="col">Email</th>
+                                                    <th scope="col">Member Since</th>
+                                                    <th scope="col">Status</th>
+                                                    <th scope="col">Actions</th>
+                                                </tr>
+                                            </thead>
+                                        <tbody>
+                                            <tr th:each="customer, iter : ${customerList}">
+                                                <td scope="col" th:text="${iter.index + 1}">1</td>
+                                                <td scope="col" th:text="${customer.username}">hubert3231</td>
+                                                <td th:text="${customer.email}">hubert@admin.com</td>
+                                                <td th:text="${#temporals.format(customer.created_at, 'MM-dd-yyyy')}">hubert@admin.com</td>
+                                                
+                                                <!-- ======= DISPLAY PASSWORD : ADMIN CAN VIEW ======-->
+                                                <!-- <td class="d-flex align-items-center">
+                                                    <input class="form-control form-control-sm" style="width: 13rem;" type="password" placeholder=".form-control-sm" aria-label=".form-control-sm example">
+                                                    <span class="badge badge-style-light rounded-pill badge-dark" style="margin-left: -3rem; cursor:pointer;"><i class="material-icons" style="font-size:1rem">visibility</i></span>
+                                                </td> -->
+                                                <!-- ======= DISPLAY PASSWORD : ADMIN CAN VIEW ======-->
+                                                
+                                                <!-- ======= DISPLAY STATUS : ADMIN CAN VIEW ======-->
+                                                <td >
+                                                    <a type="button" data-bs-toggle="modal" data-bs-target="#modalDisable" th:onclick="setStatus([[${customer.id}]])">
+                                                        <span class="badge badge-style-light rounded-pill badge-success" style="cursor:pointer;" th:if="${!customer.isDisabled}"> Active</span>
+                                                    </a>
+                                                    <a type="button" data-bs-toggle="modal" data-bs-target="#modalDisable" th:onclick="setStatus([[${customer.id}]])">
+                                                        <span class="badge badge-style-light rounded-pill badge-danger" style="cursor:pointer;"  th:unless="${!customer.isDisabled}">Disabled</span>
+                                                    </a>
+                                                
+                                                </td>
+                                            
+                                                <!-- ======= DISPLAY STATUS : ADMIN CAN VIEW ======-->
+                                                
+                                                <!-- ======= ACTIONS (DELETE, UPDATE) : ADMIN CAN VIEW ======-->
+                                                <td class="d-flex align-items-center gap-1">
+                                                    <span class="badge badge-style-light rounded-pill badge-primary"><i class="material-icons text-primary" style="font-size:1.2rem;cursor:pointer;">edit</i></span> 
+                                                    <a type="button" data-bs-toggle="modal" data-bs-target="#deleteCustomer" th:onclick="deleteCustomer([[${customer.id}]])">   
+                                                        <span class="badge badge-style-light rounded-pill badge-danger"><i class="material-icons text-danger" style="font-size:1.2rem;cursor:pointer;">delete_outline</i></span> 
+                                                    </a>   
+                                                </td>
+                                                <!-- ======= ACTIONS (DELETE, UPDATE) : ADMIN CAN VIEW ======-->
+                                            </tr>
+                                        </tbody>
+    
+                                        </table>
+                                        <!-- ======= TABLE LAYOUT ======-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ======= ALL CUSTOMERS SECTION ======-->
+                    </div> <!-- CONTAINER -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" th:inline="javascript">
+		function setStatus(id){
+			document.getElementById("customerId").value = id;
+			var form = document.getElementById("statusForm");
+			form.addEventListener('submit', function() {
+				this.action = "/admin/user/status/" +id;
+               
+			})
+		}
+		function deleteCustomer(id){
+			document.getElementById("deleteId").value = id;
+			var form = document.getElementById("deleteForm");
+			form.addEventListener('submit', function() {
+				this.action = "/admin/user/delete/" +id;
+			})
+		}
+
+	</script>
+ <th:block th:insert="./fragments/script.html :: script"></th:block>
+</body>
+
+</html>

@@ -41,15 +41,20 @@ public class LoginSecurityAuthenticationProvider implements AuthenticationProvid
 
 		Customer myCustomer = customerRepository.findCustomerByUsername(username);
 
-		if (myCustomer.getId() > 0) {
-			if (passwordEncoder.matches(pwd, myCustomer.getPassword())) {
-				return new UsernamePasswordAuthenticationToken(username, pwd,
-						getGrantedAuthority(myCustomer.getAuthorities()));
-			} else {
-				throw new UsernameNotFoundException("Invalid Credentials!");
-			}
+		if (myCustomer.isDisabled()) {
+			throw new UsernameNotFoundException("Disabled Customer!");
 		} else {
-			throw new UsernameNotFoundException("Username not Found in the Database!");
+
+			if (myCustomer.getId() > 0) {
+				if (passwordEncoder.matches(pwd, myCustomer.getPassword())) {
+					return new UsernamePasswordAuthenticationToken(username, pwd,
+							getGrantedAuthority(myCustomer.getAuthorities()));
+				} else {
+					throw new UsernameNotFoundException("Invalid Credentials!");
+				}
+			} else {
+				throw new UsernameNotFoundException("Username not Found in the Database!");
+			}
 		}
 
 	}

@@ -2,6 +2,8 @@ package com.hubert.customer;
 
 import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -24,17 +26,21 @@ public class Customer extends BaseEntity {
 	private String password;
 	private String email;
 
+	@Column(name = "is_disabled", nullable = false)
+	private boolean isDisabled;
+
 	@JsonIgnore
-	@OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "customer", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	private Set<Authority> authorities;
 
 	public Customer() {
 	}
 
-	public Customer(String username, String password, String email, Set<Authority> authorities) {
+	public Customer(String username, String password, String email, boolean isDisabled, Set<Authority> authorities) {
 		this.username = username;
 		this.password = password;
 		this.email = email;
+		this.isDisabled = isDisabled;
 		this.authorities = authorities;
 	}
 
@@ -76,6 +82,14 @@ public class Customer extends BaseEntity {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public boolean isDisabled() {
+		return isDisabled;
+	}
+
+	public void setDisabled(boolean isDisabled) {
+		this.isDisabled = isDisabled;
 	}
 
 }

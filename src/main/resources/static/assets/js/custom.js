@@ -1,1 +1,10 @@
-// Here goes your custom javascript
+$(document).ready(function () {
+  $("#customerTable").DataTable({
+    // scrollX: true,
+    pagingType: "simple",
+    // pageLength: 30,
+    // fixedHeader: {
+    //   header: true,
+    // },
+  });
+});

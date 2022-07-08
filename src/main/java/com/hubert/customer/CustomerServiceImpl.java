@@ -1,5 +1,9 @@
 package com.hubert.customer;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -32,6 +36,7 @@ public class CustomerServiceImpl implements ICustomerService {
 			Customer cust = new Customer();
 			cust.setUsername(customerDao.getUsername());
 			cust.setEmail(customerDao.getEmail());
+			cust.setDisabled(Constants.IS_DISABLED);
 
 			// encrypt the the password
 			String hashPwd = passwordEncoder.encode(customerDao.getPassword());
@@ -74,6 +79,52 @@ public class CustomerServiceImpl implements ICustomerService {
 			isUpdated = true;
 		}
 		return isUpdated;
+	}
+
+	// populate all customers
+	@Override
+	public List<Customer> getAllCustomers() {
+		Iterable<Customer> iterableCust = customerRepo.findAll();
+
+		List<Customer> customersList = new ArrayList<>();
+		for (Customer c : iterableCust) {
+			customersList.add(c);
+		}
+		return customersList.size() > 0 ? customersList : null;
+	}
+
+	// set customer status : ACTIVE : DISABLED
+	@Override
+	public boolean setCustomerStatus(Long id) {
+		boolean isUpdated = false;
+		Customer existingCustomer = getCustomer(id);
+		if (existingCustomer.getId() > 0) {
+			existingCustomer.setDisabled(!existingCustomer.isDisabled());
+			updateCustomer(existingCustomer);
+			isUpdated = true;
+		}
+		return isUpdated;
+	}
+
+	// DELETE CUSTOMER
+	@Override
+	public boolean deleteCustomer(Long id) {
+		boolean isDeleted = false;
+		Customer existingCustomer = getCustomer(id);
+		if (existingCustomer.getId() > 0) {
+			customerRepo.deleteById(id);
+			isDeleted = true;
+		}
+		return isDeleted;
+	}
+
+	private Customer getCustomer(Long id) {
+		Optional<Customer> existingCustomer = customerRepo.findById(id);
+		if (existingCustomer.isPresent()) {
+			return existingCustomer.get();
+		}
+
+		return null;
 	}
 
 }
