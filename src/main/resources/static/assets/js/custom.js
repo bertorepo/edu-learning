@@ -7,10 +7,18 @@ $(document).ready(function () {
     //   header: true,
     // },
   });
-  $("#courseTable").DataTable({
+  $("#courseTableAdmin").DataTable({
     // scrollX: true,
     pagingType: "simple",
-    // pageLength: 30,
+     pageLength: 50,
+    // fixedHeader: {
+    //   header: true,
+    // },
+  });
+  $("#courseTableUser").DataTable({
+    // scrollX: true,
+    pagingType: "simple",
+    pageLength: 50,
     // fixedHeader: {
     //   header: true,
     // },

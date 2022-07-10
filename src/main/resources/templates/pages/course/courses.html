@@ -42,7 +42,7 @@
                                         <h1>Manage Courses</h1>
                                     </div>
                                     <div class="page-description-content flex-grow-1" sec:authorize="hasRole('ROLE_USER')">
-                                        <h1>all Courses</h1>
+                                        <h1>All Courses</h1>
                                     </div>
                                     <div sec:authorize="hasRole('ADMIN')" class="page-description-actions">
                                         <a th:href="@{/admin/course/addCourse}" class="btn btn-primary btn-style-light"><i class="material-icons">add</i>Add Course</a>
@@ -117,10 +117,11 @@
                                 </div> 
                                 <!-- ====================ERROR FIELD FOR VALIDATIONS ================-->
                                 <div class="card">
-                                    <div class="card-body">
+                                    <!-- ======= TABLE LAYOUT FOR ADMIN ONLY ======-->
+                                    <div class="card-body" sec:authorize="hasRole('ROLE_ADMIN')">
                                         <!-- ======= TABLE LAYOUT ======-->
                                         <div class="table-responsive-sm ">
-                                        <table id="courseTable" class="display nowrap table-borderless" style="width:100%">
+                                        <table id="courseTableAdmin" class="display table-borderless" style="width:100%; border: none;">
                                             <thead class="table-dark" sec:authorize="hasRole('ROLE_ADMIN')">
                                                 <tr>
                                                     <th scope="col">No.</th>
@@ -136,23 +137,28 @@
                                                 <tr>
                                                     <th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">No.</th>
                                                     <th scope="col">Course Title</th>
-                                                    <th scope="col">Link</th>
-                                                    <th scope="col">Status</th>
+                                                    <th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">Link</th>
+                                                    <th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">Status</th>
                                                     <th scope="col">Added Since</th>
                                                     <th scope="col">Size</th>
                                                     <th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">Actions</th>
+                                                    <th scope="col" sec:authorize="hasRole('ROLE_USER')">Actions</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr th:each="course, iter : ${courseList}">
                                                     <td scope="col" th:text="${iter.index + 1}" sec:authorize="hasRole('ROLE_ADMIN')">1</td>
-                                                    <td scope="col" th:text="${course.courseName}">hubert3231</td>
-                                                    <td >
+                                                    <td scope="col" >
+                                                        <div class="d-flex gap-2">
+                                                            <i class="material-icons text-warning">folder</i><p class="text-secondary" th:text="${course.courseName}"></p>
+                                                        </div>
+                                                    </td>
+                                                    <td sec:authorize="hasRole('ADMIN')">
                                                         <a type="button" data-bs-toggle="modal" data-bs-target="#linkPreview" th:onclick="previewLink([[${course.courseLink}]])">
                                                             <span class="badge badge-style-light rounded-pill badge-success" style="cursor:pointer;">Preview Link</span>
                                                         </a>
                                                     </td>
-                                                    <td >
+                                                    <td sec:authorize="hasRole('ADMIN')">
                                                         <a type="button" data-bs-toggle="modal" data-bs-target="#modalDisable" th:onclick="setStatus([[${course.id}]])">
                                                             <span class="badge badge-style-light rounded-pill badge-success" style="cursor:pointer;" th:if="${!course.isEnabled}">Live</span>
                                                         </a>
@@ -162,7 +168,7 @@
                                                     
                                                     </td>
                                                     <td th:text="${#temporals.format(course.created_at, 'MM-dd-yyyy')}">hubert@admin.com</td>
-                                                    <td scope="col" th:text="${course.courseSize}">hubert3231</td>
+                                                    <td scope="col" th:text="${course.courseSize} + ' GB'" class="text-warning">hubert3231</td>
                                                     
                                                     <!-- ======= ACTIONS (DELETE, UPDATE) : ADMIN CAN VIEW ======-->
                                                     <td class="d-flex align-items-center gap-1" sec:authorize="hasRole('ROLE_ADMIN')">
@@ -172,18 +178,60 @@
                                                         </a>   
                                                     </td>
                                                     <!-- ======= ACTIONS (DELETE, UPDATE) : ADMIN CAN VIEW ======-->
+                                                     <td sec:authorize="hasRole('ROLE_USER')">
+                                                        <a type="button" data-bs-toggle="modal" data-bs-target="#linkPreview" th:onclick="previewLink([[${course.courseLink}]])">
+                                                            <span class="badge badge-style-light badge-success" style="cursor:pointer;">Download</span>
+                                                        </a>
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </table>
                                         <!-- ======= TABLE LAYOUT ======-->
                                         </div>
                                     </div>
+                                    <!-- ======= TABLE LAYOUT FOR ADMIN ONLY ======-->
+
+                                    <!-- ======= TABLE LAYOUT FOR USERS ONLY ======-->
+                                    <div class="card-body" sec:authorize="hasRole('ROLE_USER')">
+                                        <div class="table-responsive-sm">
+                                            <table id="courseTableUser" class="display table-borderless tb-customer" style="width:100%;">
+                                             <thead class="table-dark d-none">
+                                                <tr>
+                                                    <th scope="col">No.</th>
+                                                </tr>
+                                            </thead>
+                                                <tbody>
+                                                    <tr th:each="course, iter : ${courseList}">
+                                                        <td>
+                                                            <div class="card widget widget-list">
+                                                                <div class="card-body p-0">
+                                                                    <ul class="widget-list-content list-unstyled">
+                                                                        <li class="widget-list-item widget-list-item-yellow">
+                                                                            <span class="widget-list-item-icon m-l-xs"><i class="material-icons-outlined">folder</i></span>
+                                                                            <span class="widget-list-item-description">
+                                                                                <a href="#" class="widget-list-item-description-title">
+                                                                                    [[${course.courseName}]]
+                                                                                </a>
+                                                                                <span class="widget-list-item-description-subtitle">
+                                                                                [[${#temporals.format(course.created_at, 'MM-dd-yyyy')} +' | '  + ${course.courseSize + ' GB'}]]
+                                                                                </span>
+                                                                            </span>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <!-- ======= TABLE LAYOUT FOR USERS ONLY ======-->
                                 </div>
                             </div>
                         </div>
                         <!-- ======= ALL CUSTOMERS SECTION ======-->
                     </div> <!-- CONTAINER -->
-
                 </div>
             </div>
         </div>
