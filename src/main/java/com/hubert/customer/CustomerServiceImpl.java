@@ -127,4 +127,17 @@ public class CustomerServiceImpl implements ICustomerService {
 		return null;
 	}
 
+	@Override
+	public boolean updateCustomer(CustomerDao customerDao, Long id) {
+		boolean isUpdated = false;
+		Customer existingCustomer = getCustomer(id);
+		if (existingCustomer.getId() > 0) {
+			existingCustomer.setUsername(customerDao.getUsername());
+			updateCustomer(existingCustomer);
+			isUpdated = true;
+		}
+
+		return isUpdated;
+	}
+
 }

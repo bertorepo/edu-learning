@@ -14,4 +14,6 @@ public interface ICustomerService {
 	boolean deleteCustomer(Long id);
 
 	List<Customer> getAllCustomers();
+
+	boolean updateCustomer(CustomerDao customerDao, Long id);
 }

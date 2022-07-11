@@ -1,5 +1,6 @@
 package com.hubert.customer;
 
+import java.lang.ProcessBuilder.Redirect;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -47,6 +48,8 @@ public class CustomerController {
 		}
 
 		model.addAttribute("customerDao", new CustomerDao());
+		model.addAttribute("updatableCustomer", null);
+
 		return "register";
 	}
 
@@ -112,4 +115,41 @@ public class CustomerController {
 		return "pages/customer/all-customers";
 	}
 
+	// update customer
+	@GetMapping("/update/{customerId}")
+	public String displayUpdateForm(Model model, @PathVariable("customerId") Long customerId) {
+
+		model.addAttribute("updatableCustomer", customerId);
+
+		// get the HttpSession
+		// pass it to CustomerDao
+
+		model.addAttribute("customerDao", new CustomerDao());
+
+		return "register";
+	}
+
+	@PostMapping("/update/{customerId}")
+	public String updateCustomer(@Valid @ModelAttribute("customerDao") CustomerDao customerDao,
+			BindingResult bindingResult, Model model, @PathVariable("customerId") Long customerId,
+			RedirectAttributes redirect) {
+
+		if (bindingResult.hasErrors()) {
+			return "register";
+		}
+
+		if (customerId <= 0) {
+			redirect.addFlashAttribute("errorUpdate", "Error updateing the customer!");
+		}
+
+		// call the update service
+		boolean isUpdated = customerSevice.updateCustomer(customerDao, customerId);
+		if (isUpdated) {
+			redirect.addFlashAttribute("updateSuccess", "Customer updated successfully!");
+			return "redirect:/admin/user/allUsers";
+		}
+
+		return "redirect:/admin/user/allUsers?error=true";
+
+	}
 }

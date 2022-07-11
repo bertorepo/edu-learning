@@ -68,7 +68,29 @@
 			<!-- ====================ERROR FIELD FOR VALIDATIONS ================-->
 			
 			<!-- ====================REGISTRATION FOR CUSTOMER ================-->
-			<form th:action="@{/admin/user/createUser}" method="post" th:object="${customerDao}">
+			<form th:action="@{/admin/user/createUser}" method="post" th:object="${customerDao}" th:if="${updatableCustomer == null}">
+				<div class="auth-credentials m-b-xxl">
+	                <label for="signUpUsername" class="form-label">Username</label>
+	                <input type="text" th:field="*{username}" name="username" class="form-control m-b-md" id="signUpUsername" aria-describedby="signUpUsername" placeholder="Enter username">
+	
+	                <label for="signUpEmail" class="form-label">Email address</label>
+	                <input type="text" th:field="*{email}" name="email" class="form-control m-b-md" id="signUpEmail" aria-describedby="signUpEmail" placeholder="example@neptune.com">
+	
+	                <label for="signUpPassword" class="form-label">Password</label>
+	                <input type="password" th:field="*{password}" name="password" class="form-control" id="signUpPassword" aria-describedby="signUpPassword" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;">
+	                <div id="emailHelp" class="form-text">Password must be minimum 8 characters length*</div>
+	            </div>
+	
+	            <div class="auth-submit">
+	                <button type="submit"  class="btn btn-primary btn-style-light">Add Customer</button>
+	                <a th:href="@{/}"  class="btn btn-warning btn-style-light">Go Back</a>
+	            </div>
+	             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+	            <div class="divider"></div>
+			</form>
+            <!-- ====================ERROR FIELD FOR VALIDATIONS ================-->
+			<!-- ====================REGISTRATION FOR CUSTOMER ================-->
+			<form th:action="@{/admin/user/createUser}" method="post" th:object="${customerDao}" th:unless="${updatableCustomer == null}">
 				<div class="auth-credentials m-b-xxl">
 	                <label for="signUpUsername" class="form-label">Username</label>
 	                <input type="text" th:field="*{username}" name="username" class="form-control m-b-md" id="signUpUsername" aria-describedby="signUpUsername" placeholder="Enter username">

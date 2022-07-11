@@ -162,7 +162,9 @@
                                                 
                                                 <!-- ======= ACTIONS (DELETE, UPDATE) : ADMIN CAN VIEW ======-->
                                                 <td class="d-flex align-items-center gap-1">
-                                                    <span class="badge badge-style-light rounded-pill badge-primary"><i class="material-icons text-primary" style="font-size:1.2rem;cursor:pointer;">edit</i></span> 
+                                                    <a th:href="@{/admin/user/update/} + ${customer.id}">
+                                                    <span class="badge badge-style-light rounded-pill badge-primary"><i class="material-icons text-primary" style="font-size:1.2rem;cursor:pointer;">edit</i></span>
+                                                </a> 
                                                     <a type="button" data-bs-toggle="modal" data-bs-target="#deleteCustomer" th:onclick="deleteCustomer([[${customer.id}]])">   
                                                         <span class="badge badge-style-light rounded-pill badge-danger"><i class="material-icons text-danger" style="font-size:1.2rem;cursor:pointer;">delete_outline</i></span> 
                                                     </a>   
