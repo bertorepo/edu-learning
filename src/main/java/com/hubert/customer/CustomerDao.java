@@ -45,7 +45,5 @@ public class CustomerDao {
 	public String toString() {
 		return "CustomerDao [username=" + username + ", email=" + email + ", password=" + password + "]";
 	}
-	
-	
 
 }

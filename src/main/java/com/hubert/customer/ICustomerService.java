@@ -15,5 +15,7 @@ public interface ICustomerService {
 
 	List<Customer> getAllCustomers();
 
-	boolean updateCustomer(CustomerDao customerDao, Long id);
+	boolean updateCustomer(Customer customer, Long id);
+
+	Customer findCustomerById(Long id);
 }

@@ -54,7 +54,7 @@
                 <a href="index.html">Edu Learning</a>
             </div>
             
-            <p class="auth-description">Please enter your credentials to create an account.<br>Already have an account? <a href="sign-in.html">Sign In</a></p>
+            <p class="auth-description">Please enter your credentials to create an account.</p>
             <!-- ====================ERROR FIELD FOR VALIDATIONS ================-->
             <div class="alert alert-danger alert-style-light" role="alert" th:each="error : ${#fields.errors('customerDao.*')}">
 			   [[${error}]]
@@ -65,6 +65,7 @@
             <div class="alert alert-warning alert-style-light" role="alert" th:if="${messageType == 'error' && message != null }">
 			   [[${message}]]
 			</div>
+          
 			<!-- ====================ERROR FIELD FOR VALIDATIONS ================-->
 			
 			<!-- ====================REGISTRATION FOR CUSTOMER ================-->
@@ -83,34 +84,31 @@
 	
 	            <div class="auth-submit">
 	                <button type="submit"  class="btn btn-primary btn-style-light">Add Customer</button>
-	                <a th:href="@{/}"  class="btn btn-warning btn-style-light">Go Back</a>
+	                <a th:href="@{/admin/user/allUsers}"  class="btn btn-warning btn-style-light">Go Back</a>
 	            </div>
 	             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 	            <div class="divider"></div>
 			</form>
             <!-- ====================ERROR FIELD FOR VALIDATIONS ================-->
-			<!-- ====================REGISTRATION FOR CUSTOMER ================-->
-			<form th:action="@{/admin/user/createUser}" method="post" th:object="${customerDao}" th:unless="${updatableCustomer == null}">
+			<!-- ====================UPDATE CUSTOMER FORM FIELD ================-->
+			<form th:action="@{/admin/user/update/} + ${customerId}" method="post" th:object="${customerDao}" th:unless="${updatableCustomer == null}">
 				<div class="auth-credentials m-b-xxl">
 	                <label for="signUpUsername" class="form-label">Username</label>
 	                <input type="text" th:field="*{username}" name="username" class="form-control m-b-md" id="signUpUsername" aria-describedby="signUpUsername" placeholder="Enter username">
 	
-	                <label for="signUpEmail" class="form-label">Email address</label>
-	                <input type="text" th:field="*{email}" name="email" class="form-control m-b-md" id="signUpEmail" aria-describedby="signUpEmail" placeholder="example@neptune.com">
-	
-	                <label for="signUpPassword" class="form-label">Password</label>
-	                <input type="password" th:field="*{password}" name="password" class="form-control" id="signUpPassword" aria-describedby="signUpPassword" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;">
-	                <div id="emailHelp" class="form-text">Password must be minimum 8 characters length*</div>
+	                <label for="signUpEmail" class="form-label d-none">Email address</label>
+	                <input type="hidden" th:field="*{email}" name="email" class="form-control m-b-md" id="signUpEmail" aria-describedby="signUpEmail" placeholder="example@neptune.com">
+	                <input type="hidden" th:field="*{password}" name="password">
 	            </div>
 	
 	            <div class="auth-submit">
-	                <button type="submit"  class="btn btn-primary btn-style-light">Add Customer</button>
-	                <a th:href="@{/}"  class="btn btn-warning btn-style-light">Go Back</a>
+	                <button type="submit"  class="btn btn-primary btn-style-light">Update Customer</button>
+	                <a th:href="@{/admin/user/allUsers}"  class="btn btn-warning btn-style-light">Go Back</a>
 	            </div>
 	             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 	            <div class="divider"></div>
 			</form>
-            <!-- ====================ERROR FIELD FOR VALIDATIONS ================-->
+           <!-- ====================UPDATE CUSTOMER FORM FIELD ================-->
         </div>
     </div>
 

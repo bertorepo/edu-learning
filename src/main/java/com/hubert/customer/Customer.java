@@ -10,8 +10,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.hubert.annotations.PasswordMatch;
 import com.hubert.authority.Authority;
 import com.hubert.constants.BaseEntity;
 
@@ -22,6 +26,7 @@ public class Customer extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String username;
+
 	@JsonIgnore
 	private String password;
 	private String email;

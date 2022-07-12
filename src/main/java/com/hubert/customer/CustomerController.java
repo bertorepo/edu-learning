@@ -120,11 +120,21 @@ public class CustomerController {
 	public String displayUpdateForm(Model model, @PathVariable("customerId") Long customerId) {
 
 		model.addAttribute("updatableCustomer", customerId);
+		CustomerDao customerDao = null;
 
-		// get the HttpSession
+		// get the Customer By id
+		Customer existingCustomer = customerSevice.findCustomerById(customerId);
+
 		// pass it to CustomerDao
+		if (existingCustomer.getId() > 0) {
+			customerDao = new CustomerDao();
+			customerDao.setUsername(existingCustomer.getUsername());
+			customerDao.setEmail(existingCustomer.getEmail());
+			// faking he password
+			customerDao.setPassword("nomercy");
+		}
 
-		model.addAttribute("customerDao", new CustomerDao());
+		model.addAttribute("customerDao", customerDao);
 
 		return "register";
 	}
@@ -134,21 +144,27 @@ public class CustomerController {
 			BindingResult bindingResult, Model model, @PathVariable("customerId") Long customerId,
 			RedirectAttributes redirect) {
 
+		boolean isUpdated = false;
+
 		if (bindingResult.hasErrors()) {
+			model.addAttribute("updatableCustomer", customerId);
 			return "register";
 		}
 
 		if (customerId <= 0) {
-			redirect.addFlashAttribute("errorUpdate", "Error updateing the customer!");
+			redirect.addFlashAttribute("errorUpdate", "Error updating the customer!");
 		}
 
 		// call the update service
-		boolean isUpdated = customerSevice.updateCustomer(customerDao, customerId);
+		Customer existingCustomer = customerSevice.findCustomerById(customerId);
+		if (existingCustomer.getId() > 0) {
+			existingCustomer.setUsername(customerDao.getUsername());
+			isUpdated = customerSevice.updateCustomer(existingCustomer, customerId);
+		}
 		if (isUpdated) {
 			redirect.addFlashAttribute("updateSuccess", "Customer updated successfully!");
 			return "redirect:/admin/user/allUsers";
 		}
-
 		return "redirect:/admin/user/allUsers?error=true";
 
 	}

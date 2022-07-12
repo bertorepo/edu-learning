@@ -128,16 +128,24 @@ public class CustomerServiceImpl implements ICustomerService {
 	}
 
 	@Override
-	public boolean updateCustomer(CustomerDao customerDao, Long id) {
+	public boolean updateCustomer(Customer customer, Long id) {
 		boolean isUpdated = false;
-		Customer existingCustomer = getCustomer(id);
-		if (existingCustomer.getId() > 0) {
-			existingCustomer.setUsername(customerDao.getUsername());
-			updateCustomer(existingCustomer);
+
+		if (customer.getId() > 0) {
+			updateCustomer(customer);
 			isUpdated = true;
 		}
-
 		return isUpdated;
+	}
+
+	// find customer by id
+	@Override
+	public Customer findCustomerById(Long id) {
+		Optional<Customer> existingCustomer = customerRepo.findById(id);
+		if (existingCustomer.isPresent()) {
+			return existingCustomer.get();
+		}
+		return null;
 	}
 
 }
