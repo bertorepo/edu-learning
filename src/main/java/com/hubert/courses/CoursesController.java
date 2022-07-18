@@ -35,10 +35,14 @@ public class CoursesController {
 	public String displayCoursesPage(Model model, HttpSession session) {
 		List<Course> courseList = courseService.getAllCourses();
 		Customer cust = (Customer) session.getAttribute("loggedInCustomer");
-		model.addAttribute("username", cust.getUsername());
+		if (cust.getId() > 0) {
+
+			model.addAttribute("username", cust.getUsername());
+		} else {
+			model.addAttribute("username", "User");
+		}
 
 		if (courseList == null) {
-
 			model.addAttribute("courseList", null);
 		}
 		model.addAttribute("courseList", courseList);
@@ -51,6 +55,7 @@ public class CoursesController {
 	public String displayAddCoursePage(Model model) {
 
 		model.addAttribute("courseDao", new CourseDao());
+		model.addAttribute("courseId", null);
 
 		// getting the course category
 		List<CourseCategory> courseCategoryList = courseCategory.getAllCourseCategory();
@@ -83,7 +88,11 @@ public class CoursesController {
 	@GetMapping("/admin/course/manageCourse")
 	public String displayManageCourse(Model model, HttpSession session) {
 		Customer cust = (Customer) session.getAttribute("loggedInCustomer");
-		model.addAttribute("username", cust.getUsername());
+		if (cust.getId() > 0) {
+			model.addAttribute("username", cust.getUsername());
+		} else {
+			model.addAttribute("username", "User");
+		}
 
 		List<Course> courseList = courseService.getAllCourses();
 		if (courseList == null) {
@@ -110,4 +119,75 @@ public class CoursesController {
 		}
 		return "pages/course/courses";
 	}
+
+	@PostMapping("/admin/course/status/{courseId}")
+	public String setCourseStatus(@PathVariable("courseId") Long courseId, Model model,
+			RedirectAttributes redirectAttributes) {
+		if (courseId == null || courseId <= 0) {
+			redirectAttributes.addFlashAttribute("courseStatusError", "Error updating the status!");
+			return "pages/course/courses";
+		}
+		boolean isUpdated = courseService.setCourseStatus(courseId);
+		if (isUpdated) {
+			redirectAttributes.addFlashAttribute("courseStatusSuccess", "Course status updated successfully!");
+			return "redirect:/admin/course/manageCourse";
+		}
+
+		return "pages/course/courses";
+	}
+
+	// UPDATE_COURSE
+	@GetMapping("/admin/course/update/{courseId}")
+	public String updateCourseDisplay(Model model, @PathVariable("courseId") Long courseId,
+			RedirectAttributes redirectAttributes) {
+
+		if (courseId <= 0 || courseId == null) {
+			redirectAttributes.addFlashAttribute("courseUpdateError", "Error updating the course!");
+			return "pages/course/courses";
+		}
+		List<CourseCategory> courseCategoryList = courseCategory.getAllCourseCategory();
+		model.addAttribute("courseCategoryList", courseCategoryList);
+
+		Course existingCourse = courseService.findCourseById(courseId);
+		CourseDao courseDao = null;
+		if (existingCourse.getId() > 0) {
+			courseDao = new CourseDao();
+			courseDao.setCourseName(existingCourse.getCourseName());
+			courseDao.setCourseLink(existingCourse.getCourseLink());
+			courseDao.setCourseSize(existingCourse.getCourseSize());
+			courseDao.setCourseDescription(existingCourse.getCourseDescription());
+			courseDao.setCourseCategory(existingCourse.getCourseCategory());
+
+			model.addAttribute("courseDao", courseDao);
+		}
+		model.addAttribute("courseId", courseId);
+		return "pages/course/add-course";
+	}
+
+	// UPDATE_COURSE
+	@PostMapping("/admin/course/update/{courseId}")
+	public String updateCourse(@Valid @ModelAttribute("courseDao") CourseDao courseDao, BindingResult bindingResult,
+			Model model, @PathVariable("courseId") Long courseId,
+			RedirectAttributes redirectAttributes) {
+
+		model.addAttribute("courseId", courseId);
+
+		if (courseId <= 0 || courseId == null) {
+			redirectAttributes.addFlashAttribute("courseUpdateError", "Error updating the course!");
+			return "pages/course/courses";
+		}
+
+		if (bindingResult.hasErrors()) {
+			return "pages/course/courses";
+		}
+
+		boolean isUpdated = courseService.updateCourse(courseDao, courseId);
+		if (isUpdated) {
+			redirectAttributes.addFlashAttribute("courseUpdateSuccess", "Successfully updated the course!");
+			return "redirect:/admin/course/manageCourse";
+		}
+
+		return "pages/course/add-course";
+	}
+
 }

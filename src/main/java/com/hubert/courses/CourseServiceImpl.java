@@ -72,4 +72,54 @@ public class CourseServiceImpl implements ICourseService {
 		}
 		return isDeleted;
 	}
+
+	@Override
+	public boolean saveExistingCourse(Course course) {
+		boolean isUpdated = false;
+		if (course.getId() > 0) {
+			courseRepository.save(course);
+			isUpdated = true;
+		}
+		return isUpdated;
+	}
+
+	@Override
+	public boolean setCourseStatus(Long id) {
+		boolean isUpdated = false;
+		Course existingCourse = getCourseById(id);
+		if (existingCourse.getId() > 0) {
+			existingCourse.setEnabled(!existingCourse.isEnabled());
+			saveExistingCourse(existingCourse);
+			isUpdated = true;
+		}
+
+		return isUpdated;
+	}
+
+	@Override
+	public Course findCourseById(Long id) {
+		Optional<Course> existingCourse = courseRepository.findById(id);
+		if (existingCourse.isPresent()) {
+			return existingCourse.get();
+		}
+		return null;
+	}
+
+	@Override
+	public Boolean updateCourse(CourseDao courseDao, Long id) {
+		boolean isUpdated = false;
+		Course existingCourse = findCourseById(id);
+		if (existingCourse.getId() > 0) {
+			existingCourse.setCourseName(courseDao.getCourseName());
+			existingCourse.setCourseLink(courseDao.getCourseLink());
+			existingCourse.setCourseSize(courseDao.getCourseSize());
+			existingCourse.setCourseDescription(courseDao.getCourseDescription());
+			existingCourse.setCourseCategory(courseDao.getCourseCategory());
+			saveExistingCourse(existingCourse);
+
+			isUpdated = true;
+		}
+		return isUpdated;
+	}
+
 }

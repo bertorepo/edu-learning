@@ -8,4 +8,12 @@ public interface ICourseService {
 	List<Course> getAllCourses();
 
 	boolean deleteCourse(Long id);
+
+	boolean setCourseStatus(Long id);
+
+	boolean saveExistingCourse(Course course);
+
+	Course findCourseById(Long id);
+
+	Boolean updateCourse(CourseDao courseDao, Long id);
 }
