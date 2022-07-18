@@ -49,7 +49,6 @@ public class ProfileController {
         }
 
         Profile profile = new Profile();
-        Customer cust = (Customer) session.getAttribute("loggedInCustomer");
         model.addAttribute("profile", profile);
 
         return "pages/profile/profile";

@@ -2,6 +2,7 @@ package com.hubert.courses;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +11,13 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.hubert.courses.category.CourseCategory;
 import com.hubert.courses.category.ICourseCategory;
+import com.hubert.customer.Customer;
 
 @Controller
 public class CoursesController {
@@ -28,11 +32,17 @@ public class CoursesController {
 	}
 
 	@GetMapping("/courses")
-	public String displayCoursesPage(Model model) {
+	public String displayCoursesPage(Model model, HttpSession session) {
 		List<Course> courseList = courseService.getAllCourses();
-		if (courseList.size() > 0) {
-			model.addAttribute("courseList", courseList);
+		Customer cust = (Customer) session.getAttribute("loggedInCustomer");
+		model.addAttribute("username", cust.getUsername());
+
+		if (courseList == null) {
+
+			model.addAttribute("courseList", null);
 		}
+		model.addAttribute("courseList", courseList);
+
 		return "pages/course/courses";
 	}
 
@@ -71,10 +81,32 @@ public class CoursesController {
 
 	// ADMIN:MANAGE COURSES
 	@GetMapping("/admin/course/manageCourse")
-	public String displayManageCourse(Model model) {
+	public String displayManageCourse(Model model, HttpSession session) {
+		Customer cust = (Customer) session.getAttribute("loggedInCustomer");
+		model.addAttribute("username", cust.getUsername());
+
 		List<Course> courseList = courseService.getAllCourses();
-		if (courseList.size() > 0) {
-			model.addAttribute("courseList", courseList);
+		if (courseList == null) {
+
+			model.addAttribute("courseList", null);
+		}
+		model.addAttribute("courseList", courseList);
+		return "pages/course/courses";
+	}
+
+	@PostMapping("/admin/course/delete/{courseId}")
+	public String deleteCourse(@PathVariable("courseId") Long courseId, Model model,
+			RedirectAttributes redirectAttributes) {
+		if (courseId <= 0 || courseId == null) {
+			redirectAttributes.addFlashAttribute("deleteError", "Course not found!");
+			return "pages/course/courses";
+		}
+
+		// call the service
+		boolean isDeleted = courseService.deleteCourse(courseId);
+		if (isDeleted) {
+			redirectAttributes.addFlashAttribute("deleteSuccess", "Course deleted successfully!");
+			return "redirect:/admin/course/manageCourse";
 		}
 		return "pages/course/courses";
 	}

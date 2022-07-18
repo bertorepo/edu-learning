@@ -1,6 +1,7 @@
 package com.hubert.courses;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,4 +53,23 @@ public class CourseServiceImpl implements ICourseService {
 		return null;
 	}
 
+	public Course getCourseById(Long id) {
+		Optional<Course> existingCourse = courseRepository.findById(id);
+		if (existingCourse.isPresent()) {
+			return existingCourse.get();
+		}
+
+		return null;
+	}
+
+	// delete course
+	@Override
+	public boolean deleteCourse(Long id) {
+		boolean isDeleted = false;
+		if (id > 0) {
+			courseRepository.deleteById(id);
+			isDeleted = true;
+		}
+		return isDeleted;
+	}
 }

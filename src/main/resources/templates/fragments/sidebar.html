@@ -120,7 +120,22 @@
                                 </li>
                             </ul>
                         </li>  
-                         <!-- ====AREA FOR CUSTOMER -->                            
+                         <!-- ====AREA FOR CUSTOMER -->   
+                          <!-- ====AREA FOR COURSES -->
+                          <li  >
+                            <a href="#">[[${#strings.capitalize(username)}]]<i class="material-icons has-sub-menu">keyboard_arrow_down</i></a>
+                            <ul class="sub-menu">
+                               
+                                <li>
+                                    <a th:href="@{/profile}" class="">Change Password</a>
+                                </li>
+                                 <li>
+                                    <a th:href="@{/logout}">Logout</a>
+                                </li>
+                               
+                            </ul>
+                        </li>  
+                         <!-- ====AREA FOR COURSES -->                          
                     </ul>
                 </div>
             </div>

@@ -12,13 +12,11 @@ import com.hubert.constants.BaseEntity;
 public class CourseCategory extends BaseEntity {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@Column(name="category_name")
+
+	@Column(name = "category_name")
 	private String categoryName;
-	
-	
 
 	public CourseCategory() {
 	}

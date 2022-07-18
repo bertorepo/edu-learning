@@ -2,6 +2,7 @@ package com.hubert.books;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.hubert.books.category.BookCategory;
 import com.hubert.books.category.IBookCategoryService;
+import com.hubert.customer.Customer;
 
 @Controller
 public class BooksController {
@@ -28,7 +30,9 @@ public class BooksController {
 	}
 
 	@GetMapping("/books")
-	public String displayBooksPage() {
+	public String displayBooksPage(Model model, HttpSession session) {
+		Customer cust = (Customer) session.getAttribute("loggedInCustomer");
+		model.addAttribute("username", cust.getUsername());
 		return "pages/books";
 	}
 

@@ -1,6 +1,5 @@
 package com.hubert.courses;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,7 +16,7 @@ import com.hubert.courses.category.CourseCategory;
 public class Course extends BaseEntity {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(name = "course_name")
@@ -32,7 +31,7 @@ public class Course extends BaseEntity {
 	@Column(name = "is_enabled")
 	private boolean isEnabled;
 
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "course_category_id", referencedColumnName = "id", nullable = false)
 	private CourseCategory courseCategory;
 

@@ -1,6 +1,5 @@
 package com.hubert.customer;
 
-import java.lang.ProcessBuilder.Redirect;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,13 +7,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -56,7 +51,6 @@ public class CustomerController {
 	@PostMapping("/createUser")
 	public String addCustomer(@Valid @ModelAttribute("customerDao") CustomerDao customerDao,
 			BindingResult bindingResult, Model model, HttpServletRequest request, HttpServletResponse reponse) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (bindingResult.hasErrors()) {
 			return "register";
 		}
@@ -121,10 +115,8 @@ public class CustomerController {
 
 		model.addAttribute("updatableCustomer", customerId);
 		CustomerDao customerDao = null;
-
 		// get the Customer By id
 		Customer existingCustomer = customerSevice.findCustomerById(customerId);
-
 		// pass it to CustomerDao
 		if (existingCustomer.getId() > 0) {
 			customerDao = new CustomerDao();
@@ -133,9 +125,7 @@ public class CustomerController {
 			// faking he password
 			customerDao.setPassword("nomercy");
 		}
-
 		model.addAttribute("customerDao", customerDao);
-
 		return "register";
 	}
 

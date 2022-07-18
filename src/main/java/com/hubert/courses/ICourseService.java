@@ -6,4 +6,6 @@ public interface ICourseService {
 	Course saveCourse(CourseDao courseDao);
 
 	List<Course> getAllCourses();
+
+	boolean deleteCourse(Long id);
 }
