@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head th:replace="./fragments/head.html :: head"></head>
+
+<body>
+
+
+    <div class="app horizontal-menu align-content-stretch d-flex flex-wrap">
+        <div class="app-container">
+            <div class="search container">
+                <form>
+                    <input class="form-control" type="text" placeholder="Type here..." aria-label="Search">
+                </form>
+                <a href="#" class="toggle-search"><i class="material-icons">close</i></a>
+            </div>
+            <!-- ====THE NAVBAR AREA======-->
+           <div th:replace="./fragments/header.html :: header"></div>
+            <!-- ====THE NAVBAR AREA======-->
+           
+            <!-- ====SUB-SIDEBAR FOR USER ROLE-->
+            <th:block sec:authorize="hasRole('USER')">
+            	<div th:replace="./fragments/sidebar.html :: sidebar_user"></div>
+            </th:block>
+            <!-- ====SUB-SIDEBAR FOR USER ROLE-->
+            
+            <!-- ====SUB-SIDEBAR FOR ADMIN ROLE-->
+            <th:block sec:authorize="hasRole('ADMIN')">
+            	<div th:replace="./fragments/sidebar.html :: sidebar_admin"></div>
+            </th:block>
+            <!-- ====SUB-SIDEBAR FOR ADMIN ROLE-->
+            <div class="app-content">
+                <div class="content-wrapper">
+                    <div class="container">
+                        <!-- CONTAINER -->
+
+                        <!-- ======= HEADER TITLE =====-->
+                        <div class="row">
+                            <div class="col">
+                                <div class="page-description d-flex align-items-center">
+                                    <div class="page-description-content flex-grow-1" sec:authorize="hasRole('ROLE_ADMIN')">
+                                        <h1>Manage Books</h1>
+                                    </div>
+                                    <div class="page-description-content flex-grow-1" sec:authorize="hasRole('ROLE_USER')">
+                                        <h1>All Books</h1>
+                                    </div>
+                                    <div sec:authorize="hasRole('ADMIN')" class="page-description-actions">
+                                        <a th:href="@{/admin/book/addBook}" class="btn btn-primary btn-style-light"><i class="material-icons">add</i>Add Book</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ======= HEADER TITLE -->
+
+                        <!-- ====== MODAL COMPONENTS ===== -->
+                        <!-- ====== MAKING THE COIURSE DRAFT / LIVE ===== -->
+                        <div class="modal fade" id="bookStatus" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Update Book Status?</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form id="bookStatusForm" method="post">
+                                            <input type="hidden" id="bookId" name="bookId"></input>
+                                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                                            <div class="widget-connection-request-actions d-flex">
+                                                <a href="#" class="btn btn-warning btn-style-light flex-grow-1 m-r-xxs" data-bs-dismiss="modal"><i class="material-icons">close</i>Close</a>
+                                                <button type="submit" class="btn btn-danger btn-style-light flex-grow-1 m-l-xxs"><i class="material-icons">done</i>Proceed</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ====== MAKING THE COIURSE DRAFT / LIVE ===== -->
+                        <!-- ====== FOR PREVIEWING EACH COURSE LINK ===== -->
+                        <!-- <div class="modal fade" id="linkPreview" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Here's the Link!</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="text" id="courseLink" name="courseLink" class="form-control" disabled></input>
+                                        <div class="widget-connection-request-actions d-flex justify-content-center">
+                                            <a href="#" class="btn btn-warning btn-style-light m-r-xxs m-t-xs" data-bs-dismiss="modal"><i class="material-icons">close</i>Close</a>
+                                        </div>
+                                      
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                        <!-- ====== FOR PREVIEWING EACH COURSE LINK ===== -->
+                        <!-- ====== FOR DELETING COURSE ===== -->
+                        <div class="modal fade" id="deleteBook" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Delete Book?</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                       <form id="deleteFormBook" method="post">
+                                        <input type="hidden" id="deleteId" name="deleteId"></input>
+                                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                                        <div class="widget-connection-request-actions d-flex">
+                                            <a href="#" class="btn btn-warning btn-style-light flex-grow-1 m-r-xxs" data-bs-dismiss="modal"><i class="material-icons">close</i>Close</a>
+                                            <button type="submit" class="btn btn-danger btn-style-light flex-grow-1 m-l-xxs"><i class="material-icons">done</i>Delete</button>
+                                        </div>
+                                       </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ====== FOR DELETING COURSE ===== -->
+                        <!-- ====== MODAL COMPONENTS ===== -->
+
+                        <!-- ======= ALL COURSES SECTION ======-->
+                        <div class="section-description d-none">
+                            <h1>Groups</h1>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <!-- ====================ERROR FIELD FOR VALIDATIONS ================-->
+                                <div class="alert alert-success alert-style-light" role="alert" th:if = "${statusSuccess != null}">
+                                [[${statusSuccess}]]
+                                </div> 
+                                <div class="alert alert-danger alert-style-light" role="alert" th:if = "${statusError != null}">
+                                [[${statusError}]]
+                                </div> 
+                                <div class="alert alert-success alert-style-light" role="alert" th:if = "${deleteSuccess != null}">
+                                [[${deleteSuccess}]]
+                                </div> 
+                                <div class="alert alert-danger alert-style-light" role="alert" th:if = "${deleteError != null}">
+                                [[${deleteError}]]
+                                </div> 
+                                <div class="alert alert-danger alert-style-light" role="alert" th:if = "${courseStatusError != null}">
+                                [[${bookStatusError}]]
+                                </div> 
+                                <div class="alert alert-success alert-style-light" role="alert" th:if = "${bookStatusSuccess != null}">
+                                [[${bookStatusSuccess}]]
+                                </div> 
+                                <div class="alert alert-danger alert-style-light" role="alert" th:if = "${bookUpdateError != null}">
+                                [[${bookUpdateError}]]
+                                </div> 
+                                <div class="alert alert-success alert-style-light" role="alert" th:if = "${bookUpdateSuccess != null}">
+                                [[${bookUpdateSuccess}]]
+                                </div> 
+                                <!-- ====================ERROR FIELD FOR VALIDATIONS ================-->
+                                <div class="card">
+                                    <!-- ======= TABLE LAYOUT FOR ADMIN ONLY ======-->
+                                    <div class="card-body" sec:authorize="hasRole('ROLE_ADMIN')">
+                                        <!-- ======= TABLE LAYOUT ======-->
+                                        <div th:if="${allBooks == null}">
+                                            <h3>No books!</h3>
+                                        </div>
+                                        <div class="table-responsive-sm" th:unless="${allBooks == null}">
+                                        <table id="bookTableAdmin" class="display table-borderless" style="width:100%; border: none;">
+                                            <thead class="table-dark" sec:authorize="hasRole('ROLE_ADMIN')">
+                                                <tr>
+                                                    <th scope="col">No.</th>
+                                                    <th scope="col">Book Title</th>
+                                                    <th scope="col">Status</th>
+                                                    <th scope="col">Added Since</th>
+                                                    <th scope="col">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr th:each="book, iter : ${allBooks}">
+                                                    <td scope="col" th:text="${iter.index + 1}" sec:authorize="hasRole('ROLE_ADMIN')">1</td>
+                                                    <td scope="col" >
+                                                        <div class="d-flex gap-2">
+                                                            <i class="material-icons text-warning">folder</i><p class="text-secondary" th:text="${book.bookName}"></p>
+                                                        </div>
+                                                    </td>
+                                             
+                                                    <td sec:authorize="hasRole('ADMIN')">
+                                                        <a type="button" data-bs-toggle="modal" data-bs-target="#bookStatus" th:onclick="bookStatus([[${book.id}]])">
+                                                            <span class="badge badge-style-light rounded-pill badge-success" style="cursor:pointer;" th:if="${book.isEnabled}">Live</span>
+                                                        </a>
+                                                        <a type="button" data-bs-toggle="modal" data-bs-target="#bookStatus" th:onclick="bookStatus([[${book.id}]])">
+                                                            <span class="badge badge-style-light rounded-pill badge-warning" style="cursor:pointer;"  th:unless="${book.isEnabled}">Draft</span>
+                                                        </a>
+                                                    
+                                                    </td>
+                                                    <td th:text="${#temporals.format(book.created_at, 'MM-dd-yyyy')}">hubert@admin.com</td>
+                       
+                                                    
+                                                    <!-- ======= ACTIONS (DELETE, UPDATE) : ADMIN CAN VIEW ======-->
+                                                    <td class="d-flex align-items-center gap-1" sec:authorize="hasRole('ROLE_ADMIN')">
+                                                        <a th:href="@{/admin/course/update/} + ${book.id}">
+                                                        <span class="badge badge-style-light rounded-pill badge-primary"><i class="material-icons text-primary" style="font-size:1.2rem;cursor:pointer;">edit</i></span> 
+                                                        </a>
+                                                        <a type="button" data-bs-toggle="modal" data-bs-target="#deleteBook" th:onclick="deleteBook([[${book.id}]])">   
+                                                            <span class="badge badge-style-light rounded-pill badge-danger"><i class="material-icons text-danger" style="font-size:1.2rem;cursor:pointer;">delete_outline</i></span> 
+                                                        </a>   
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <!-- ======= TABLE LAYOUT ======-->
+                                        </div>
+                                    </div>
+                                    <!-- ======= TABLE LAYOUT FOR ADMIN ONLY ======-->
+
+                                    <!-- ======= TABLE LAYOUT FOR USERS ONLY ======-->
+                                    <div class="card-body" sec:authorize="hasRole('ROLE_USER')">
+                                        <div th:if="${allBooks ==null}">
+                                            <h3>No books!</h3>
+                                        </div>
+                                        <div class="table-responsive-sm" th:unless="${allBooks ==null}">
+                                            <table id="bookTableUser" class="display table-borderless tb-customer" style="width:100%;">
+                                             <thead class="table-dark d-none">
+                                                <tr>
+                                                    <th scope="col">No.</th>
+                                                </tr>
+                                            </thead>
+                                                <tbody>
+                                                    <tr th:each="book, iter : ${allBooks}">
+                                                        <td>
+                                                            <div class="card widget widget-list">
+                                                                <div class="card-body p-0">
+                                                                    <ul class="widget-list-content list-unstyled">
+                                                                        <li class="widget-list-item widget-list-item-yellow">
+                                                                            <span class="widget-list-item-icon m-l-xs"><i class="material-icons-outlined">folder</i></span>
+                                                                            <span class="widget-list-item-description">
+                                                                                <a href="#" class="widget-list-item-description-title">
+                                                                                    [[${book.bookName}]]
+                                                                                </a>
+                                                                                <span class="widget-list-item-description-subtitle">
+                                                                                [[${#temporals.format(book.created_at, 'MM-dd-yyyy')}]]
+                                                                                </span>
+                                                                            </span>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <!-- ======= TABLE LAYOUT FOR USERS ONLY ======-->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ======= ALL CUSTOMERS SECTION ======-->
+                    </div> <!-- CONTAINER -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" th:inline="javascript">
+		// function previewLink(link){
+		// 	document.getElementById("courseLink").value = link;
+		// }
+		function deleteBook(id){
+			document.getElementById("deleteId").value = id;
+			var form = document.getElementById("deleteFormBook");
+			form.addEventListener('submit', function() {
+				this.action = "/admin/book/delete/" +id;
+			})
+		}
+        function bookStatus(id) {
+            document.getElementById("bookId").value = id;
+            var form = document.getElementById("bookStatusForm");
+            form.addEventListener('submit', function() {
+                this.action = "/admin/book/status/" + id;
+            })
+        }
+
+	</script>
+ <th:block th:insert="./fragments/script.html :: script"></th:block>
+</body>
+
+</html>

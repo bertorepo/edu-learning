@@ -39,6 +39,8 @@ public class ProfileController {
     @GetMapping("")
     public String displayProfilePage(Model model, HttpSession session,
             @RequestParam(value = "error", required = false) String error) {
+        Customer cust = (Customer) session.getAttribute("loggedInCustomer");
+        model.addAttribute("username", cust.getUsername());
 
         MessageResponse messageResponse = new MessageResponse();
         List<String> generateMessage = null;

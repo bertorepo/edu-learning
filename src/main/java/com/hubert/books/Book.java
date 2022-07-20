@@ -21,12 +21,12 @@ public class Book extends BaseEntity {
 
     @Column(name = "book_name")
     private String bookName;
-    @Column(name = "book_size")
-    private String bookSize;
+
     @Column(name = "book_description")
     private String bookDescription;
-    @Column(name = "book_link")
-    private String bookLink;
+
+    @Column(name = "is_enabled")
+    private boolean isEnabled;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false)
@@ -35,13 +35,12 @@ public class Book extends BaseEntity {
     public Book() {
     }
 
-    public Book(Long id, String bookName, String bookSize, String bookDescription, String bookLink,
+    public Book(Long id, String bookName, String bookDescription, boolean isEnabled,
             BookCategory bookCategory) {
         this.id = id;
         this.bookName = bookName;
-        this.bookSize = bookSize;
         this.bookDescription = bookDescription;
-        this.bookLink = bookLink;
+        this.isEnabled = isEnabled;
         this.bookCategory = bookCategory;
     }
 
@@ -61,14 +60,6 @@ public class Book extends BaseEntity {
         this.bookName = bookName;
     }
 
-    public String getBookSize() {
-        return bookSize;
-    }
-
-    public void setBookSize(String bookSize) {
-        this.bookSize = bookSize;
-    }
-
     public String getBookDescription() {
         return bookDescription;
     }
@@ -77,20 +68,20 @@ public class Book extends BaseEntity {
         this.bookDescription = bookDescription;
     }
 
-    public String getBookLink() {
-        return bookLink;
-    }
-
-    public void setBookLink(String bookLink) {
-        this.bookLink = bookLink;
-    }
-
     public BookCategory getBookCategory() {
         return bookCategory;
     }
 
     public void setBookCategory(BookCategory bookCategory) {
         this.bookCategory = bookCategory;
+    }
+
+    public boolean isEnabled() {
+        return isEnabled;
+    }
+
+    public void setEnabled(boolean isEnabled) {
+        this.isEnabled = isEnabled;
     }
 
 }

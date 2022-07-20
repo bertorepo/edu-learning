@@ -178,7 +178,7 @@ public class CoursesController {
 		}
 
 		if (bindingResult.hasErrors()) {
-			return "pages/course/courses";
+			return "pages/course/add-course";
 		}
 
 		boolean isUpdated = courseService.updateCourse(courseDao, courseId);

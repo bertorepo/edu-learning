@@ -10,12 +10,28 @@ $(document).ready(function () {
   $("#courseTableAdmin").DataTable({
     // scrollX: true,
     pagingType: "simple",
-     pageLength: 50,
+    pageLength: 50,
+    // fixedHeader: {
+    //   header: true,
+    // },
+  });
+  $("#bookTableAdmin").DataTable({
+    // scrollX: true,
+    pagingType: "simple",
+    pageLength: 50,
     // fixedHeader: {
     //   header: true,
     // },
   });
   $("#courseTableUser").DataTable({
+    // scrollX: true,
+    pagingType: "simple",
+    pageLength: 50,
+    // fixedHeader: {
+    //   header: true,
+    // },
+  });
+  $("#bookTableUser").DataTable({
     // scrollX: true,
     pagingType: "simple",
     pageLength: 50,

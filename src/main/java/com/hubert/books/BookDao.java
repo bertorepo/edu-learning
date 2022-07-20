@@ -10,13 +10,7 @@ public class BookDao {
     @NotBlank(message = "Name should not be empty!")
     private String bookName;
 
-    @NotBlank(message = "Size should not be empty!")
-    private String bookSize;
-
     private String bookDescription;
-
-    @NotBlank(message = "Link should not be empty!")
-    private String bookLink;
 
     @NotNull(message = "Book Category sould not be empty!")
     private BookCategory bookCategory;
@@ -29,28 +23,12 @@ public class BookDao {
         this.bookName = bookName;
     }
 
-    public String getBookSize() {
-        return bookSize;
-    }
-
-    public void setBookSize(String bookSize) {
-        this.bookSize = bookSize;
-    }
-
     public String getBookDescription() {
         return bookDescription;
     }
 
     public void setBookDescription(String bookDescription) {
         this.bookDescription = bookDescription;
-    }
-
-    public String getBookLink() {
-        return bookLink;
-    }
-
-    public void setBookLink(String bookLink) {
-        this.bookLink = bookLink;
     }
 
     public BookCategory getBookCategory() {
